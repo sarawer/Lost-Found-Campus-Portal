@@ -1,0 +1,199 @@
+/* ============================================
+   Lost & Found Campus Portal — Stylesheet
+   Theme: "Campus Lost Property Ledger"
+   ============================================ */
+
+:root {
+    --paper: #EFEAD8;
+    --paper-card: #F8F5EC;
+    --ink: #1D3557;
+    --ink-light: #33547F;
+    --kraft-border: #C7B888;
+    --stamp-red: #A83232;
+    --stamp-green: #2F6F4E;
+    --stamp-mustard: #A97A28;
+    --text: #2B2521;
+    --text-muted: #7A7160;
+    --radius: 10px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    background-color: var(--paper);
+    background-image:
+            radial-gradient(circle at 20% 10%, rgba(199, 184, 136, 0.15), transparent 40%),
+            radial-gradient(circle at 90% 80%, rgba(29, 53, 87, 0.06), transparent 45%);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+}
+
+h1, h2, h3, .navbar-brand {
+    font-family: 'Fraunces', serif;
+    color: var(--ink);
+}
+
+.mono, table th, label.form-label {
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+/* ---------- Navbar ---------- */
+.site-navbar {
+    background: var(--ink) !important;
+    border-bottom: 3px solid var(--kraft-border);
+}
+.site-navbar .navbar-brand {
+    color: var(--paper-card) !important;
+    font-weight: 600;
+}
+.site-navbar .btn-outline-light {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    border-width: 1.5px;
+}
+
+/* ---------- Homepage hero ---------- */
+.hero-title { font-size: 2.6rem; font-weight: 600; }
+.hero-subtitle { color: var(--text-muted); font-size: 1.05rem; }
+
+/* ---------- Stamp cards (homepage) ---------- */
+.stamp-card {
+    position: relative;
+    background: var(--paper-card);
+    border: 2px dashed var(--kraft-border);
+    border-radius: var(--radius);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.stamp-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(29, 53, 87, 0.12);
+}
+.stamp-badge {
+    position: absolute;
+    top: -14px;
+    right: 18px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #fff;
+    transform: rotate(-9deg);
+    border: 2px solid rgba(255,255,255,0.5);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+.stamp-badge.lost  { background: var(--stamp-red); }
+.stamp-badge.found { background: var(--stamp-green); }
+.stamp-badge.claim { background: var(--stamp-mustard); }
+
+/* ---------- Table card wrapper ---------- */
+.table-card {
+    background: var(--paper-card);
+    border-radius: var(--radius);
+    border: 1px solid var(--kraft-border);
+    box-shadow: 0 4px 12px rgba(29, 53, 87, 0.06);
+    overflow: hidden;
+}
+.table-card table { margin-bottom: 0; }
+.table-card thead th {
+    background: var(--ink);
+    color: var(--paper-card);
+    text-transform: uppercase;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+    border: none;
+    padding: 0.85rem 1rem;
+}
+.table-card tbody td {
+    vertical-align: middle;
+    padding: 0.75rem 1rem;
+    border-color: rgba(199, 184, 136, 0.4);
+}
+.table-card tbody tr:hover { background: rgba(199, 184, 136, 0.12); }
+
+/* ---------- Buttons ---------- */
+.btn-primary { background-color: var(--ink); border-color: var(--ink); }
+.btn-primary:hover { background-color: var(--ink-light); border-color: var(--ink-light); }
+
+.btn-success { background-color: var(--stamp-green); border-color: var(--stamp-green); }
+.btn-success:hover { background-color: #255c40; border-color: #255c40; }
+
+.btn-danger { background-color: var(--stamp-red); border-color: var(--stamp-red); }
+.btn-danger:hover { background-color: #8a2a2a; border-color: #8a2a2a; }
+
+.btn-warning { background-color: var(--stamp-mustard); border-color: var(--stamp-mustard); color: #fff; }
+.btn-warning:hover { background-color: #8b6420; border-color: #8b6420; color: #fff; }
+
+.btn-secondary { background-color: transparent; border-color: var(--kraft-border); color: var(--text); }
+
+/* ---------- Ticket-style form cards ---------- */
+.ticket-card {
+    position: relative;
+    background: var(--paper-card);
+    border: 2px dashed var(--kraft-border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    max-width: 640px;
+    margin: 0 auto;
+}
+.ticket-card::before, .ticket-card::after {
+    content: "";
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    background: var(--paper);
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.ticket-card::before { left: -11px; }
+.ticket-card::after  { right: -11px; }
+
+.ticket-card .form-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 0.3rem;
+}
+.ticket-card .form-control, .ticket-card .form-select {
+    border-color: var(--kraft-border);
+    background: var(--paper);
+}
+.ticket-card .form-control:focus, .ticket-card .form-select:focus {
+    border-color: var(--ink);
+    box-shadow: 0 0 0 0.2rem rgba(29, 53, 87, 0.15);
+}
+
+/* ---------- Status stamps (Claims table) ---------- */
+.status-stamp {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 700;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    border: 2px solid;
+    transform: rotate(-3deg);
+}
+.status-stamp.pending  { color: var(--stamp-mustard); border-color: var(--stamp-mustard); }
+.status-stamp.approved { color: var(--stamp-green);   border-color: var(--stamp-green); }
+.status-stamp.rejected { color: var(--stamp-red);     border-color: var(--stamp-red); }
+
+/* ---------- Accessibility ---------- */
+a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+    .stamp-card { transition: none; }
+}

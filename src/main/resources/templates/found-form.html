@@ -4,48 +4,64 @@
     <meta charset="UTF-8">
     <title>Found Item Form</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
-<div class="container mt-5">
-    <h2 class="mb-4" th:text="${foundItem.id} == null ? 'Add Found Item' : 'Update Found Item'"></h2>
 
-    <form th:action="@{/found/save}" th:object="${foundItem}" method="post">
-
-        <input type="hidden" th:field="*{id}"/>
-
-        <div class="mb-3">
-            <label class="form-label">Student ID</label>
-            <input type="text" class="form-control" th:field="*{studentId}" required>
+<nav class="navbar navbar-dark site-navbar mb-4">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">Lost & Found Campus Portal</a>
+        <div>
+            <a class="btn btn-outline-light btn-sm me-2" th:href="@{/lost}">Lost Items</a>
+            <a class="btn btn-outline-light btn-sm me-2" th:href="@{/found}">Found Items</a>
+            <a class="btn btn-outline-light btn-sm" th:href="@{/claims}">Claims</a>
         </div>
+    </div>
+</nav>
 
-        <div class="mb-3">
-            <label class="form-label">Item Name</label>
-            <input type="text" class="form-control" th:field="*{itemName}" required>
-        </div>
+<div class="container">
+    <h2 class="mb-4 text-center" th:text="${foundItem.id} == null ? 'Add Found Item' : 'Update Found Item'"></h2>
 
-        <div class="mb-3">
-            <label class="form-label">Description</label>
-            <textarea class="form-control" th:field="*{description}"></textarea>
-        </div>
+    <div class="ticket-card">
+        <form th:action="@{/found/save}" th:object="${foundItem}" method="post">
+            <input type="hidden" th:field="*{id}"/>
 
-        <div class="mb-3">
-            <label class="form-label">Found Location</label>
-            <input type="text" class="form-control" th:field="*{foundLocation}">
-        </div>
+            <div class="mb-3">
+                <label class="form-label">Student ID</label>
+                <input type="text" class="form-control" th:field="*{studentId}" required>
+            </div>
 
-        <div class="mb-3">
-            <label class="form-label">Found Date</label>
-            <input type="date" class="form-control" th:field="*{foundDate}">
-        </div>
+            <div class="mb-3">
+                <label class="form-label">Item Name</label>
+                <input type="text" class="form-control" th:field="*{itemName}" required>
+            </div>
 
-        <div class="mb-3">
-            <label class="form-label">Contact Info</label>
-            <input type="text" class="form-control" th:field="*{contactInfo}">
-        </div>
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea class="form-control" th:field="*{description}"></textarea>
+            </div>
 
-        <button type="submit" class="btn btn-success">Save</button>
-        <a th:href="@{/found}" class="btn btn-secondary">Cancel</a>
-    </form>
+            <div class="mb-3">
+                <label class="form-label">Found Location</label>
+                <input type="text" class="form-control" th:field="*{foundLocation}">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Found Date</label>
+                <input type="date" class="form-control" th:field="*{foundDate}">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Contact Info</label>
+                <input type="text" class="form-control" th:field="*{contactInfo}">
+            </div>
+
+            <button type="submit" class="btn btn-success">Save</button>
+            <a th:href="@{/found}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
 </div>
 </body>
 </html>
