@@ -24,7 +24,7 @@ public class ClaimController {
     @GetMapping("/add")
     public String showAddForm(Model model) {
         Claim claim = new Claim();
-        claim.setStatus("pending");   // নতুন claim এ default status
+        claim.setStatus("pending");
         model.addAttribute("claim", claim);
         return "claim-form";
     }

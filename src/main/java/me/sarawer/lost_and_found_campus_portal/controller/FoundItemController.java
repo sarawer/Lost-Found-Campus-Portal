@@ -1,6 +1,5 @@
 package me.sarawer.lost_and_found_campus_portal.controller;
 
-
 import me.sarawer.lost_and_found_campus_portal.entity.FoundItem;
 import me.sarawer.lost_and_found_campus_portal.service.FoundItemService;
 import org.springframework.stereotype.Controller;

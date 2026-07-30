@@ -18,7 +18,7 @@ public class Claim {
     private String claimerName;
     private String claimerContact;
     private LocalDate claimDate;
-    private String status;   // "pending" / "approved" / "rejected"
+    private String status;
 
     public Long getId() {
         return id;

@@ -19,7 +19,7 @@ public class LostItemController {
     @GetMapping
     public String getAllLostItems(Model model) {
         model.addAttribute("lostItems", lostItemService.getAllLostItems());
-        return "lost-items"; // templates/lost-items.html রেন্ডার হবে
+        return "lost-items";
     }
 
 
