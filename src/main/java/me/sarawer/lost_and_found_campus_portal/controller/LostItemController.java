@@ -1,19 +1,18 @@
 package me.sarawer.lost_and_found_campus_portal.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.ui.Model;
 import me.sarawer.lost_and_found_campus_portal.entity.LostItem;
 import me.sarawer.lost_and_found_campus_portal.service.LostItemService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/lost")
 public class LostItemController {
-    private LostItemService lostItemService;
+    private final LostItemService lostItemService;
 
-    public LostItemController(LostItemService lostItemService) {
-        this.lostItemService = lostItemService;
-    }
 
 
     @GetMapping

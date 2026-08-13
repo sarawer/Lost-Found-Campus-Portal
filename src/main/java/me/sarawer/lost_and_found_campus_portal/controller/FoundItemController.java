@@ -1,19 +1,17 @@
 package me.sarawer.lost_and_found_campus_portal.controller;
 
+import lombok.RequiredArgsConstructor;
 import me.sarawer.lost_and_found_campus_portal.entity.FoundItem;
 import me.sarawer.lost_and_found_campus_portal.service.FoundItemService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("found")
 public class FoundItemController {
-    private FoundItemService foundItemService;
-
-    public FoundItemController(FoundItemService foundItemService) {
-        this.foundItemService = foundItemService;
-    }
+    private final FoundItemService foundItemService;
 
     @GetMapping
     public String getAllFoundItems(Model model) {
