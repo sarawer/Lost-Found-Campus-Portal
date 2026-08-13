@@ -14,14 +14,17 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain filter(HttpSecurity http){
-        http.authorizeHttpRequests((request)->request
-                        .requestMatchers("/register", "/css/**").permitAll()
+    public SecurityFilterChain filter(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests((request) -> request
+                        .requestMatchers("/css/**", "/register", "/login").permitAll()
+                        .requestMatchers("/lost/edit/**", "/lost/delete/**",
+                                "/found/edit/**", "/found/delete/**",
+                                "/claims/**").hasRole("ADMIN")
+                        .requestMatchers("/lost/add", "/found/add").hasRole("USER")
                         .anyRequest().authenticated())
                 .rememberMe(Customizer.withDefaults())
                 .logout(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults());
-
 
         return http.build();
     }
