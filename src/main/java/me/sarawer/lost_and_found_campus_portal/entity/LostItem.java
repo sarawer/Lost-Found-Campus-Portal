@@ -22,5 +22,6 @@ public class LostItem {
     private String lostLocation;
     private LocalDate lostDate;
     private String contactInfo;
-
+    private String createdBy;
+    private String status = "pending";
 }

@@ -22,5 +22,6 @@ public class FoundItem {
     private String foundLocation;
     private LocalDate foundDate;
     private String contactInfo;
-
+    private String createdBy;
+    private String status = "pending";
 }

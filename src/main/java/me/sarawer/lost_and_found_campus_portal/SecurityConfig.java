@@ -16,18 +16,28 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filter(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((request) -> request
+                        .requestMatchers("/style.css", "/css/**", "/register", "/login").permitAll()
                         .requestMatchers("/css/**", "/register", "/login").permitAll()
-                        .requestMatchers("/lost/edit/**", "/lost/delete/**",
-                                "/found/edit/**", "/found/delete/**",
-                                "/claims/**").hasRole("ADMIN")
-                        .requestMatchers("/lost/add", "/found/add").hasRole("USER")
+                        .requestMatchers("/lost/add", "/lost/edit/**", "/lost/delete/**", "/lost/save",
+                                "/found/add", "/found/edit/**", "/found/delete/**", "/found/save")
+                        .hasRole("USER")
+                        .requestMatchers("/lost/status/**", "/found/status/**", "/claims/**")
+                        .hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .rememberMe(Customizer.withDefaults())
-                .logout(Customizer.withDefaults())
-                .formLogin(Customizer.withDefaults());
+                .logout((logout) -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout")
+                        .permitAll()
+                )
+                .formLogin((form) -> form
+                        .loginPage("/login")
+                        .permitAll()
+                );
 
         return http.build();
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
