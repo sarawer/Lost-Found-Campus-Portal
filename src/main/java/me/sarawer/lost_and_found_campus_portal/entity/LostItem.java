@@ -4,10 +4,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Data;
 
 import java.time.LocalDate;
 
 @Entity
+@Data
 public class LostItem {
 
     @Id
@@ -20,60 +22,6 @@ public class LostItem {
     private String lostLocation;
     private LocalDate lostDate;
     private String contactInfo;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
-    }
-
-    public String getItemName() {
-        return itemName;
-    }
-
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getLostLocation() {
-        return lostLocation;
-    }
-
-    public void setLostLocation(String lostLocation) {
-        this.lostLocation = lostLocation;
-    }
-
-    public LocalDate getLostDate() {
-        return lostDate;
-    }
-
-    public void setLostDate(LocalDate lostDate) {
-        this.lostDate = lostDate;
-    }
-
-    public String getContactInfo() {
-        return contactInfo;
-    }
-
-    public void setContactInfo(String contactInfo) {
-        this.contactInfo = contactInfo;
-    }
+    private String createdBy;
+    private String status = "pending";
 }

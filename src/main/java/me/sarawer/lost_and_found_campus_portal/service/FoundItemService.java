@@ -1,6 +1,7 @@
 package me.sarawer.lost_and_found_campus_portal.service;
 
 import me.sarawer.lost_and_found_campus_portal.entity.FoundItem;
+import me.sarawer.lost_and_found_campus_portal.entity.LostItem;
 import me.sarawer.lost_and_found_campus_portal.repository.FoundItemRepository;
 import org.springframework.stereotype.Service;
 
@@ -49,5 +50,17 @@ public class FoundItemService {
         }
         foundItemRepository.deleteById(id);
         return true;
+    }
+
+    public List<FoundItem> getFoundItemByUser(String username) {
+        return foundItemRepository.findByCreatedBy(username);
+    }
+
+    public FoundItem updateStatus(Long id, String status) {
+        FoundItem item = foundItemRepository.findById(id).orElse(null);
+        if (item == null) return null;
+
+        item.setStatus(status);
+        return foundItemRepository.save(item);
     }
 }

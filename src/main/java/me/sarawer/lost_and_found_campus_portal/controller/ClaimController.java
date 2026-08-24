@@ -1,19 +1,18 @@
 package me.sarawer.lost_and_found_campus_portal.controller;
 
+import lombok.RequiredArgsConstructor;
 import me.sarawer.lost_and_found_campus_portal.entity.Claim;
 import me.sarawer.lost_and_found_campus_portal.service.ClaimService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("claims")
 public class ClaimController {
-    private ClaimService claimService;
+    private final ClaimService claimService;
 
-    public ClaimController(ClaimService claimService) {
-        this.claimService = claimService;
-    }
 
     @GetMapping
     public String getAllClaims(Model model) {

@@ -51,4 +51,16 @@ public class LostItemService {
         lostItemRepository.deleteById(id);
         return true;
     }
+
+    public List<LostItem> getLostItemsByUser(String username) {
+        return lostItemRepository.findByCreatedBy(username);
+    }
+
+    public LostItem updateStatus(Long id, String status) {
+        LostItem item = lostItemRepository.findById(id).orElse(null);
+        if (item == null) return null;
+
+        item.setStatus(status);
+        return lostItemRepository.save(item);
+    }
 }
