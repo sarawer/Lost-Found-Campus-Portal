@@ -46,30 +46,37 @@
 
 <main class="flex-grow-1">
     <!-- Hero Section -->
-    <section class="py-5 bg-white border-bottom">
-        <div class="container py-5 text-center">
-            <span class="badge badge-pending mb-3 px-3 py-2 fs-6">Find it. Verify it. Get it back.</span>
-            <h1 class="hero-title mb-4">Lost something on campus?<br>Let's help you find it.</h1>
-            <p class="hero-subtitle mb-5">The official, secure lost & found platform for Southeast University students.</p>
-            
-            <div class="d-flex justify-content-center flex-wrap gap-3">
-                <a th:href="@{/lost}" class="btn btn-primary btn-lg px-4 rounded-pill shadow-sm">Browse Items</a>
-                <a th:href="@{/lost/add}" class="btn btn-outline-primary btn-lg px-4 rounded-pill">Report Lost Item</a>
-                <a th:href="@{/found/add}" class="btn btn-secondary btn-lg px-4 rounded-pill">Report Found Item</a>
+    <section class="hero-section py-5">
+        <div class="container py-5">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0 text-center text-lg-start">
+                    <span class="badge badge-light mb-3 px-3 py-2 fs-6">Find it. Verify it. Get it back.</span>
+                    <h1 class="hero-title mb-4">Lost something on campus?<br>Let's help you find it.</h1>
+                    <p class="hero-subtitle mb-5 mx-auto mx-lg-0">The official, secure lost & found platform for Southeast University students.</p>
+                    
+                    <div class="d-flex justify-content-center justify-content-lg-start flex-wrap gap-3">
+                        <a th:href="@{/lost}" class="btn btn-primary btn-lg px-4 rounded-pill shadow-sm" style="background-color: #10B981; border-color: #10B981;">Browse Items</a>
+                        <a th:href="@{/lost/add}" class="btn btn-outline-white btn-lg px-4 rounded-pill">Report Lost Item</a>
+                        <a th:href="@{/found/add}" class="btn btn-secondary btn-lg px-4 rounded-pill">Report Found</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <img th:src="@{/images/seuCampusImage.jpeg}" alt="SEU Campus" class="hero-image">
+                </div>
             </div>
         </div>
     </section>
 
     <!-- How it works -->
-    <section class="py-5 bg-light">
-        <div class="container py-4">
+    <section class="py-5 bg-white">
+        <div class="container py-4 mt-4">
             <h2 class="text-center mb-5">How SEU CampusFinder Works</h2>
             <div class="row g-4">
                 <div class="col-md-3">
                     <div class="card h-100 border-0 bg-transparent shadow-none text-center">
                         <div class="card-body px-2">
-                            <div class="rounded-circle bg-white shadow-sm d-flex align-items-center justify-content-center mx-auto mb-4" style="width: 72px; height: 72px;">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" stroke="var(--primary-navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                            <div class="icon-circle icon-blue">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                             </div>
                             <h5 class="card-title fw-bold">1. Report</h5>
                             <p class="text-muted fs-6">Post a lost or found item. Your detailed information is kept private.</p>
@@ -79,8 +86,8 @@
                 <div class="col-md-3">
                     <div class="card h-100 border-0 bg-transparent shadow-none text-center">
                         <div class="card-body px-2">
-                            <div class="rounded-circle bg-white shadow-sm d-flex align-items-center justify-content-center mx-auto mb-4" style="width: 72px; height: 72px;">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" stroke="var(--primary-navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            <div class="icon-circle icon-green">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                             </div>
                             <h5 class="card-title fw-bold">2. Search</h5>
                             <p class="text-muted fs-6">Browse items reported by SEU students across the campus.</p>
@@ -90,8 +97,8 @@
                 <div class="col-md-3">
                     <div class="card h-100 border-0 bg-transparent shadow-none text-center">
                         <div class="card-body px-2">
-                            <div class="rounded-circle bg-white shadow-sm d-flex align-items-center justify-content-center mx-auto mb-4" style="width: 72px; height: 72px;">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" stroke="var(--primary-navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                            <div class="icon-circle icon-amber">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
                             </div>
                             <h5 class="card-title fw-bold">3. Claim</h5>
                             <p class="text-muted fs-6">Submit private verification info to prove the item belongs to you.</p>
@@ -101,8 +108,8 @@
                 <div class="col-md-3">
                     <div class="card h-100 border-0 bg-transparent shadow-none text-center">
                         <div class="card-body px-2">
-                            <div class="rounded-circle bg-white shadow-sm d-flex align-items-center justify-content-center mx-auto mb-4" style="width: 72px; height: 72px;">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" stroke="var(--primary-navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            <div class="icon-circle icon-indigo">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
                             </div>
                             <h5 class="card-title fw-bold">4. Get It Back</h5>
                             <p class="text-muted fs-6">Connect with the student after admin verification and arrange the handover.</p>
@@ -114,18 +121,18 @@
     </section>
 
     <!-- Featured Items (Placeholder as requested in spec) -->
-    <section class="py-5">
+    <section class="py-5 bg-light">
         <div class="container">
             <div class="d-flex justify-content-between align-items-end mb-4">
                 <h2 class="mb-0">Recently Reported</h2>
-                <a th:href="@{/lost}" class="btn btn-secondary btn-sm">View All</a>
+                <a th:href="@{/lost}" class="btn btn-outline-primary btn-sm rounded-pill px-3">View All</a>
             </div>
             <div class="row g-4">
                 <!-- Placeholder Card 1 -->
                 <div class="col-md-4">
-                    <div class="item-card">
-                        <div class="item-card-img-container">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                    <div class="item-card border-0">
+                        <div class="item-card-img-container" style="background-color: #E2E8F0;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" stroke="#64748B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
                         </div>
                         <div class="item-card-body">
                             <span class="badge badge-lost align-self-start mb-2">LOST</span>
@@ -139,9 +146,9 @@
                 </div>
                 <!-- Placeholder Card 2 -->
                 <div class="col-md-4">
-                    <div class="item-card">
-                        <div class="item-card-img-container">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                    <div class="item-card border-0">
+                        <div class="item-card-img-container" style="background-color: #E0F2FE;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" stroke="#0284C7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
                         </div>
                         <div class="item-card-body">
                             <span class="badge badge-found align-self-start mb-2">FOUND</span>
@@ -155,9 +162,9 @@
                 </div>
                 <!-- Placeholder Card 3 -->
                 <div class="col-md-4">
-                    <div class="item-card">
-                        <div class="item-card-img-container">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <div class="item-card border-0">
+                        <div class="item-card-img-container" style="background-color: #FEE2E2;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" stroke="#B91C1C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                         </div>
                         <div class="item-card-body">
                             <span class="badge badge-lost align-self-start mb-2">LOST</span>
