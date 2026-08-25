@@ -1,79 +1,130 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Lost Item Form</title>
+    <title>Found Items - SEU CampusFinder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/style.css}">
 </head>
+<body class="d-flex flex-column bg-light">
 
-<nav class="navbar navbar-dark site-navbar mb-4">
+<nav class="navbar site-navbar sticky-top">
     <div class="container">
-        <a class="navbar-brand" th:href="@{/}">Lost & Found Campus Portal</a>
-        <div>
-            <a class="btn btn-outline-light btn-sm me-2" th:href="@{/lost}">Lost Items</a>
-            <a class="btn btn-outline-light btn-sm me-2" th:href="@{/found}">Found Items</a>
+        <a class="navbar-brand" th:href="@{/}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-primary me-1"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            SEU CampusFinder
+        </a>
+        <button class="navbar-toggler d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse d-md-flex justify-content-end" id="navbarMenu">
+            <div class="d-flex flex-column flex-md-row align-items-md-center mt-3 mt-md-0">
+                <a class="nav-btn me-md-2" th:href="@{/}">Home</a>
+                <a class="nav-btn me-md-2" th:href="@{/lost}">Lost Items</a>
+                <a class="nav-btn me-md-3 text-primary fw-bold" th:href="@{/found}">Found Items</a>
+
+                <span sec:authorize="!isAuthenticated()" class="d-flex mt-2 mt-md-0">
+                    <a class="nav-btn me-2" th:href="@{/login}">Login</a>
+                    <a class="nav-btn nav-btn-primary" th:href="@{/register}">Register</a>
+                </span>
+
+                <span sec:authorize="isAuthenticated()" class="d-flex align-items-center mt-2 mt-md-0">
+                    <a class="nav-btn me-md-3" th:href="@{/claims}">My Claims</a>
+                    <span class="nav-user me-3 text-muted">
+                        Hi, <span class="text-main fw-bold" sec:authentication="name"></span>
+                    </span>
+                    <form th:action="@{/logout}" method="post" class="d-inline m-0">
+                        <button type="submit" class="nav-btn border-0 bg-transparent text-danger">Logout</button>
+                    </form>
+                </span>
+            </div>
         </div>
     </div>
 </nav>
 
-
-<body>
-<div class="container mt-5">
-    <h2 class="mb-4">Found Items</h2>
-
-    <a th:if="${!isAdmin}" th:href="@{/found/add}" class="btn btn-primary mb-3">Add Found Item</a>
-
-    <div th:if="${#lists.isEmpty(foundItems)}" class="alert alert-secondary">
-        No items to show.
+<div class="container py-5 flex-grow-1">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">Found Items</h2>
+            <p class="text-muted mb-0">Browse items found by SEU students</p>
+        </div>
+        <a th:if="${!isAdmin}" th:href="@{/found/add}" class="btn btn-secondary shadow-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" class="me-1 mb-1"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            Report Found Item
+        </a>
     </div>
 
-    <table th:if="${!#lists.isEmpty(foundItems)}" class="table table-bordered table-striped">
-        <thead class="table-dark">
-        <tr>
-            <th>Student ID</th>
-            <th>Item Name</th>
-            <th>Description</th>
-            <th>Found Location</th>
-            <th>Found Date</th>
-            <th>Contact Info</th>
-            <th>Status</th>
-            <th th:if="${!isAdmin}">Actions</th>
-            <th th:if="${isAdmin}">Change Status</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="item : ${foundItems}">
-            <td th:text="${item.studentId}"></td>
-            <td th:text="${item.itemName}"></td>
-            <td th:text="${item.description}"></td>
-            <td th:text="${item.foundLocation}"></td>
-            <td th:text="${item.foundDate}"></td>
-            <td th:text="${item.contactInfo}"></td>
-            <td th:text="${item.status}"></td>
+    <div class="card border-0 bg-transparent shadow-none mb-4">
+        <div class="row gx-2">
+            <div class="col-md-8">
+                <input type="text" class="form-control" placeholder="Search found items...">
+            </div>
+            <div class="col-md-4 mt-2 mt-md-0">
+                <button class="btn btn-secondary w-100">Search</button>
+            </div>
+        </div>
+    </div>
 
-            <!-- USER দেখবে: Update/Delete -->
-            <td th:if="${!isAdmin}">
-                <a th:href="@{/found/edit/{id}(id=${item.id})}" class="btn btn-sm btn-warning">Update</a>
-                <a th:href="@{/found/delete/{id}(id=${item.id})}" class="btn btn-sm btn-danger"
-                   onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
-            </td>
+    <div th:if="${#lists.isEmpty(foundItems)}" class="empty-state">
+        <div class="mb-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1" class="text-muted"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </div>
+        <h5>No found items found</h5>
+        <p class="mb-0">There are currently no found items reported on campus.</p>
+    </div>
 
-            <!-- ADMIN দেখবে: শুধু status dropdown -->
-            <td th:if="${isAdmin}">
-                <form th:action="@{/found/status/{id}(id=${item.id})}" method="post" class="d-flex gap-2">
-                    <select name="status" class="form-select form-select-sm">
-                        <option value="pending" th:selected="${item.status == 'pending'}">Pending</option>
-                        <option value="resolved" th:selected="${item.status == 'resolved'}">Resolved</option>
-                    </select>
-                    <button type="submit" class="btn btn-sm btn-primary">Update</button>
-                </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <div th:if="${!#lists.isEmpty(foundItems)}" class="row g-4">
+        <div class="col-md-4 col-sm-6" th:each="item : ${foundItems}">
+            <div class="item-card">
+                <div class="item-card-img-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                </div>
+                <div class="item-card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="badge badge-found">FOUND</span>
+                        <span class="badge badge-pending" th:if="${item.status == 'pending'}">Pending</span>
+                        <span class="badge badge-resolved" th:if="${item.status == 'resolved'}">Resolved</span>
+                    </div>
+                    <h3 class="item-card-title" th:text="${item.itemName}"></h3>
+                    <div class="item-card-meta">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        <span th:text="${item.foundLocation ?: 'Location unknown'}"></span>
+                    </div>
+                    <div class="item-card-meta mt-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                        <span th:text="${item.foundDate ?: 'Date unknown'}"></span>
+                    </div>
+                </div>
+                <div class="item-card-footer flex-column align-items-stretch gap-2">
+                    <div th:if="${!isAdmin}" class="d-flex gap-2">
+                        <a th:href="@{/found/edit/{id}(id=${item.id})}" class="btn btn-sm btn-outline-primary flex-grow-1">Update</a>
+                        <a th:href="@{/found/delete/{id}(id=${item.id})}" class="btn btn-sm btn-outline-danger flex-grow-1"
+                           onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+                    </div>
+                    <div th:if="${isAdmin}">
+                        <form th:action="@{/found/status/{id}(id=${item.id})}" method="post" class="d-flex gap-2">
+                            <select name="status" class="form-select form-select-sm">
+                                <option value="pending" th:selected="${item.status == 'pending'}">Pending</option>
+                                <option value="resolved" th:selected="${item.status == 'resolved'}">Resolved</option>
+                            </select>
+                            <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                        </form>
+                    </div>
+                    <a th:if="${!isAdmin}" th:href="@{/claims/add}" class="btn btn-sm btn-primary w-100">Claim Item</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<footer class="bg-white border-top py-4 mt-auto">
+    <div class="container text-center text-muted">
+        <p class="mb-0 fs-6">&copy; 2026 SEU CampusFinder. Find it. Verify it. Get it back.</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

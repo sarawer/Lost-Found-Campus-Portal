@@ -1,67 +1,106 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Lost Item Form</title>
+    <title>Report Lost Item - SEU CampusFinder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/style.css}">
 </head>
-<body>
+<body class="d-flex flex-column bg-light">
 
-<nav class="navbar navbar-dark site-navbar mb-4">
+<nav class="navbar site-navbar sticky-top">
     <div class="container">
-        <a class="navbar-brand" th:href="@{/}">Lost & Found Campus Portal</a>
-        <div>
-            <a class="btn btn-outline-light btn-sm me-2" th:href="@{/lost}">Lost Items</a>
-            <a class="btn btn-outline-light btn-sm me-2" th:href="@{/found}">Found Items</a>
-            <a class="btn btn-outline-light btn-sm" th:href="@{/claims}">Claims</a>
+        <a class="navbar-brand" th:href="@{/}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-primary me-1"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            SEU CampusFinder
+        </a>
+        <button class="navbar-toggler d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse d-md-flex justify-content-end" id="navbarMenu">
+            <div class="d-flex flex-column flex-md-row align-items-md-center mt-3 mt-md-0">
+                <a class="nav-btn me-md-2" th:href="@{/}">Home</a>
+                <a class="nav-btn me-md-2" th:href="@{/lost}">Lost Items</a>
+                <a class="nav-btn me-md-3" th:href="@{/found}">Found Items</a>
+
+                <span sec:authorize="isAuthenticated()" class="d-flex align-items-center mt-2 mt-md-0">
+                    <a class="nav-btn me-md-3" th:href="@{/claims}">My Claims</a>
+                    <span class="nav-user me-3 text-muted">
+                        Hi, <span class="text-main fw-bold" sec:authentication="name"></span>
+                    </span>
+                    <form th:action="@{/logout}" method="post" class="d-inline m-0">
+                        <button type="submit" class="nav-btn border-0 bg-transparent text-danger">Logout</button>
+                    </form>
+                </span>
+            </div>
         </div>
     </div>
 </nav>
 
-<div class="container">
-    <h2 class="mb-4 text-center" th:text="${lostItem.id} == null ? 'Add Lost Item' : 'Update Lost Item'"></h2>
+<div class="container py-5 flex-grow-1">
+    <div class="form-card w-100" style="max-width: 600px;">
+        <div class="text-center mb-4">
+            <span class="badge badge-lost mb-2">Report Lost</span>
+            <h2 class="fw-bold mb-1" th:text="${lostItem.id} == null ? 'Report Lost Item' : 'Update Lost Item'"></h2>
+            <p class="text-muted">Provide details to help find your lost item.</p>
+        </div>
 
-    <div class="ticket-card">
+        <div class="privacy-notice">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" class="me-1 mb-1"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            <strong>Privacy Note:</strong> Your detailed description and contact info will not be shown publicly. It will only be used to verify ownership if someone claims the item.
+        </div>
+
         <form th:action="@{/lost/save}" th:object="${lostItem}" method="post">
             <input type="hidden" th:field="*{id}"/>
 
-            <div class="mb-3">
-                <label class="form-label">Student ID</label>
-                <input type="text" class="form-control" th:field="*{studentId}" required>
+            <div class="row gx-3">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Student ID</label>
+                    <input type="text" class="form-control" th:field="*{studentId}" required placeholder="e.g. 20240001">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Contact Info (Private)</label>
+                    <input type="text" class="form-control" th:field="*{contactInfo}" placeholder="Phone number">
+                </div>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Item Name</label>
-                <input type="text" class="form-control" th:field="*{itemName}" required>
+                <input type="text" class="form-control" th:field="*{itemName}" required placeholder="e.g. Black Leather Wallet">
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Description</label>
-                <textarea class="form-control" th:field="*{description}"></textarea>
+                <label class="form-label">Detailed Description (Private)</label>
+                <textarea class="form-control" th:field="*{description}" rows="4" placeholder="Include any unique identifying characteristics..."></textarea>
             </div>
 
-            <div class="mb-3">
-                <label class="form-label">Lost Location</label>
-                <input type="text" class="form-control" th:field="*{lostLocation}">
+            <div class="row gx-3">
+                <div class="col-md-6 mb-4">
+                    <label class="form-label">Lost Location</label>
+                    <input type="text" class="form-control" th:field="*{lostLocation}" placeholder="e.g. Library, 3rd Floor">
+                </div>
+                <div class="col-md-6 mb-4">
+                    <label class="form-label">Lost Date</label>
+                    <input type="date" class="form-control" th:field="*{lostDate}">
+                </div>
             </div>
 
-            <div class="mb-3">
-                <label class="form-label">Lost Date</label>
-                <input type="date" class="form-control" th:field="*{lostDate}">
+            <div class="d-flex gap-3">
+                <a th:href="@{/lost}" class="btn btn-secondary w-50">Cancel</a>
+                <button type="submit" class="btn btn-primary w-50" th:text="${lostItem.id} == null ? 'Report Lost Item' : 'Update Item'"></button>
             </div>
-
-            <div class="mb-3">
-                <label class="form-label">Contact Info</label>
-                <input type="text" class="form-control" th:field="*{contactInfo}">
-            </div>
-
-            <button type="submit" class="btn btn-success">Save</button>
-            <a th:href="@{/lost}" class="btn btn-secondary">Cancel</a>
         </form>
     </div>
 </div>
+
+<footer class="bg-white border-top py-4 mt-auto">
+    <div class="container text-center text-muted">
+        <p class="mb-0 fs-6">&copy; 2026 SEU CampusFinder. Find it. Verify it. Get it back.</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

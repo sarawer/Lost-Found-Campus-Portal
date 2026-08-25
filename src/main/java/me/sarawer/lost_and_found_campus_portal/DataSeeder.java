@@ -21,7 +21,7 @@ public class DataSeeder implements CommandLineRunner {
 
         if (existingAdmin == null) {
             AppUser admin = new AppUser();
-            admin.setUsername("admin");
+            admin.setUsername("admin@seu.edu.bd");
             admin.setPassword(passwordEncoder.encode("admin123"));
             admin.setRole("ADMIN");
             appUserRepository.save(admin);
