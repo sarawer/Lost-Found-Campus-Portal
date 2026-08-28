@@ -133,6 +133,472 @@ h1, h2, h3, h4, h5, h6 {
     color: #fff;
 }
 
+/* =========================================
+   HOW IT WORKS
+   ========================================= */
+
+.how-it-works-section {
+    background: linear-gradient(
+            180deg,
+            #f5f9ff 0%,
+            #ffffff 100%
+    );
+
+    padding: 60px 0 80px;
+}
+
+
+/* Heading */
+
+.how-it-works-heading {
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+.section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+
+    color: #1769e0;
+
+    margin-bottom: 12px;
+}
+
+.section-label span {
+    width: 28px;
+    height: 2px;
+    background: #1769e0;
+    display: inline-block;
+}
+
+.how-it-works-heading h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #12366b;
+    margin-bottom: 15px;
+}
+
+.how-it-works-heading p {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #64748b;
+    margin: 0;
+}
+
+
+/* Cards */
+
+.process-card {
+    position: relative;
+
+    height: 100%;
+    min-height: 400px;
+
+    padding: 48px 28px 30px;
+
+    text-align: center;
+
+    border-radius: 20px;
+
+    border: 1px solid rgba(30, 70, 120, 0.10);
+
+    box-shadow:
+            0 10px 30px rgba(30, 70, 120, 0.10);
+
+    overflow: hidden;
+
+    transition:
+            transform 0.3s ease,
+            box-shadow 0.3s ease;
+}
+
+
+
+.process-card:hover {
+    transform: translateY(-8px);
+
+    box-shadow:
+            0 18px 40px rgba(30, 70, 120, 0.14);
+}
+
+
+
+/* =========================================
+   CARD BACKGROUNDS
+   ========================================= */
+
+.process-blue {
+    color: #2474e8;
+    background: linear-gradient(
+            145deg,
+            #e8f1ff 0%,
+            #dbeaff 100%
+    );
+}
+
+.process-green {
+    color: #20a86b;
+    background: linear-gradient(
+            145deg,
+            #e5f8ef 0%,
+            #d5f2e5 100%
+    );
+}
+
+.process-amber {
+    color: #e99a16;
+    background: linear-gradient(
+            145deg,
+            #fff3d9 0%,
+            #ffe8b5 100%
+    );
+}
+
+.process-indigo {
+    color: #405de6;
+    background: linear-gradient(
+            145deg,
+            #eceeff 0%,
+            #e0e4ff 100%
+    );
+}
+
+.process-icon svg {
+    width: 52px;
+    height: 52px;
+}
+
+
+/*hover effect*/
+.process-blue:hover {
+    box-shadow: 0 18px 40px rgba(36, 116, 232, 0.20);
+}
+
+.process-green:hover {
+    box-shadow: 0 18px 40px rgba(32, 168, 107, 0.20);
+}
+
+.process-amber:hover {
+    box-shadow: 0 18px 40px rgba(233, 154, 22, 0.20);
+}
+
+.process-indigo:hover {
+    box-shadow: 0 18px 40px rgba(64, 93, 230, 0.20);
+}
+
+
+
+/* Colored top section */
+
+.process-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 190px;
+
+    border-radius: 20px 20px 50% 50%;
+
+    opacity: 0.12;
+}
+
+
+/* Decorative dots */
+
+.card-decoration {
+    position: absolute;
+
+    top: 25px;
+    right: 25px;
+
+    width: 35px;
+    height: 35px;
+
+    opacity: 0.25;
+
+    background-image: radial-gradient(
+            currentColor 2px,
+            transparent 2px
+    );
+
+    background-size: 10px 10px;
+}
+
+
+/* Icon */
+
+.process-icon {
+    position: relative;
+
+    width: 105px;
+    height: 105px;
+
+    margin: 0 auto 28px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    color: #ffffff;
+
+    box-shadow:
+            0 12px 25px rgba(0, 0, 0, 0.12);
+
+    z-index: 2;
+}
+
+
+/* Number */
+
+.step-number {
+    position: relative;
+
+    width: 40px;
+    height: 40px;
+
+    margin: 0 auto 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    color: #ffffff;
+
+    font-size: 1rem;
+    font-weight: 700;
+
+    z-index: 2;
+}
+
+
+/* Title */
+
+.process-card h5 {
+    position: relative;
+
+    color: #12366b;
+
+    font-size: 1.45rem;
+    font-weight: 800;
+
+    margin-bottom: 12px;
+
+    z-index: 2;
+}
+
+
+/* Small line */
+
+.step-line {
+    width: 38px;
+    height: 3px;
+
+    margin: 0 auto 20px;
+
+    border-radius: 10px;
+}
+
+
+/* Description */
+
+.process-card p {
+    position: relative;
+
+    color: #52627a;
+
+    font-size: 1rem;
+
+    line-height: 1.7;
+
+    margin: 0 auto;
+
+    max-width: 240px;
+
+    z-index: 2;
+}
+
+
+
+/* =========================================
+   BLUE
+   ========================================= */
+
+.process-blue {
+    color: #2474e8;
+}
+
+.process-blue::before {
+    background: #2474e8;
+}
+
+.process-blue .process-icon {
+    background: #2474e8;
+}
+
+.process-blue .step-number {
+    background: #2474e8;
+}
+
+.process-blue .step-line {
+    background: #2474e8;
+}
+
+
+/* =========================================
+   GREEN
+   ========================================= */
+
+.process-green {
+    color: #20b878;
+}
+
+.process-green::before {
+    background: #20b878;
+}
+
+.process-green .process-icon {
+    background: #20b878;
+}
+
+.process-green .step-number {
+    background: #20b878;
+}
+
+.process-green .step-line {
+    background: #20b878;
+}
+
+
+/* =========================================
+   AMBER
+   ========================================= */
+
+.process-amber {
+    color: #f5a623;
+}
+
+.process-amber::before {
+    background: #f5a623;
+}
+
+.process-amber .process-icon {
+    background: #f5a623;
+}
+
+.process-amber .step-number {
+    background: #f5a623;
+}
+
+.process-amber .step-line {
+    background: #f5a623;
+}
+
+/* =========================================
+   PURPLE
+   ========================================= */
+
+.process-purple {
+    color: #8b5cf6;
+    background: linear-gradient(
+            145deg,
+            #f3efff 0%,
+            #e9ddff 100%
+    );
+}
+
+.process-purple::before {
+    background: #8b5cf6;
+}
+
+.process-purple .process-icon {
+    background: #8b5cf6;
+}
+
+.process-purple .step-number {
+    background: #8b5cf6;
+}
+
+.process-purple .step-line {
+    background: #8b5cf6;
+}
+
+
+
+/* =========================================
+   INDIGO
+   ========================================= */
+
+.process-indigo {
+    color: #405de6;
+}
+
+.process-indigo::before {
+    background: #405de6;
+}
+
+.process-indigo .process-icon {
+    background: #405de6;
+}
+
+.process-indigo .step-number {
+    background: #405de6;
+}
+
+.process-indigo .step-line {
+    background: #405de6;
+}
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 991px) {
+
+    .how-it-works-heading h2 {
+        font-size: 2.1rem;
+    }
+
+    .process-card {
+        min-height: 450px;
+    }
+
+}
+
+
+@media (max-width: 575px) {
+
+    .how-it-works-section {
+        padding: 45px 0 60px;
+    }
+
+    .how-it-works-heading h2 {
+        font-size: 1.8rem;
+    }
+
+    .how-it-works-heading p {
+        font-size: 0.95rem;
+    }
+
+    .process-card {
+        min-height: 420px;
+    }
+}
+
+
+
 /* ---------- Cards ---------- */
 .card {
     background-color: var(--card-bg);

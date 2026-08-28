@@ -1,5 +1,6 @@
 package me.sarawer.lost_and_found_campus_portal.controller;
 
+import lombok.RequiredArgsConstructor;
 import me.sarawer.lost_and_found_campus_portal.entity.LostItem;
 import me.sarawer.lost_and_found_campus_portal.service.LostItemService;
 import org.springframework.security.core.Authentication;
@@ -10,16 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/lost")
 public class LostItemController {
 
-    private LostItemService lostItemService;
+    private final LostItemService lostItemService;
 
-    public LostItemController(LostItemService lostItemService) {
-        this.lostItemService = lostItemService;
-    }
 
-    // role চেক করার জন্য ছোট্ট helper method
     private boolean isAdmin(Authentication authentication) {
         return authentication.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
@@ -29,17 +27,12 @@ public class LostItemController {
     public String getAllLostItems(Model model, Authentication authentication) {
 
         boolean admin = isAdmin(authentication);
-        List<LostItem> items;
-
-        if (admin) {
-            items = lostItemService.getAllLostItems();
-        } else {
-            items = lostItemService.getLostItemsByUser(authentication.getName());
-        }
+        List<LostItem>items = lostItemService.allLostItems();
 
         model.addAttribute("lostItems", items);
         model.addAttribute("isAdmin", admin);
         return "lost-items";
+
     }
 
     @GetMapping("/add")

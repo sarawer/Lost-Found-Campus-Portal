@@ -52,6 +52,10 @@ public class LostItemService {
         return true;
     }
 
+    public List<LostItem>allLostItems(){
+        return lostItemRepository.findAll();
+    }
+
     public List<LostItem> getLostItemsByUser(String username) {
         return lostItemRepository.findByCreatedBy(username);
     }
