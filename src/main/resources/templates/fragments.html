@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+
+<nav th:fragment="navbar(activePage)" class="navbar navbar-expand-md site-navbar sticky-top">
+    <div class="container d-flex align-items-center justify-content-between">
+        <a class="navbar-brand d-flex align-items-center" th:href="@{/}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-primary me-1"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            SEU CampusFinder
+        </a>
+        <button class="navbar-toggler d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse d-md-flex justify-content-end" id="navbarMenu">
+            <div class="d-flex flex-column flex-md-row align-items-md-center mt-3 mt-md-0">
+                <a class="nav-btn me-md-2" th:classappend="${activePage == 'home'} ? 'active' : ''" th:href="@{/}">Home</a>
+                <a class="nav-btn me-md-2" th:classappend="${activePage == 'lost'} ? 'active' : ''" th:href="@{/lost}">Lost Items</a>
+                <a class="nav-btn me-md-3" th:classappend="${activePage == 'found'} ? 'active' : ''" th:href="@{/found}">Found Items</a>
+
+                <span sec:authorize="!isAuthenticated()" class="d-flex mt-2 mt-md-0">
+                    <a class="nav-btn me-2" th:href="@{/login}">Login</a>
+                    <a class="nav-btn nav-btn-primary" th:href="@{/register}">Register</a>
+                </span>
+
+                <span sec:authorize="isAuthenticated()" class="d-flex align-items-center mt-2 mt-md-0">
+                    <a class="nav-btn me-md-3" th:classappend="${activePage == 'claims'} ? 'active' : ''" th:href="@{/claims}">My Claims</a>
+                    <span class="nav-user me-3 text-muted">
+                        Hi, <span class="text-main fw-bold" sec:authentication="name"></span>
+                    </span>
+                    <form th:action="@{/logout}" method="post" class="d-inline m-0">
+                        <button type="submit" class="nav-btn border-0 bg-transparent text-danger">Logout</button>
+                    </form>
+                </span>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<footer th:fragment="footer" class="bg-white border-top py-4 mt-auto">
+    <div class="container text-center text-muted">
+        <p class="mb-0 fs-6">&copy; 2026 SEU CampusFinder. Find it. Verify it. Get it back.</p>
+    </div>
+</footer>
+
+</body>
+</html>
