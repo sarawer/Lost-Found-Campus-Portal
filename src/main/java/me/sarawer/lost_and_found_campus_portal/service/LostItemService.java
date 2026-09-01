@@ -40,6 +40,8 @@ public class LostItemService {
         updatedLostItem.setLostLocation(lostItemReq.getLostLocation());
         updatedLostItem.setLostDate(lostItemReq.getLostDate());
         updatedLostItem.setContactInfo(lostItemReq.getContactInfo());
+        updatedLostItem.setImageData(lostItemReq.getImageData());
+        updatedLostItem.setImageContentType(lostItemReq.getImageContentType());
 
         return lostItemRepository.save(updatedLostItem);
     }

@@ -39,6 +39,8 @@ public class FoundItemService {
         updatedFoundItem.setFoundLocation(foundItemReq.getFoundLocation());
         updatedFoundItem.setFoundDate(foundItemReq.getFoundDate());
         updatedFoundItem.setContactInfo(foundItemReq.getContactInfo());
+        updatedFoundItem.setImageData(foundItemReq.getImageData());
+        updatedFoundItem.setImageContentType(foundItemReq.getImageContentType());
 
         return foundItemRepository.save(updatedFoundItem);
     }

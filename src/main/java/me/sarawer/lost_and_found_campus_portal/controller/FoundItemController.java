@@ -9,7 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -57,7 +59,33 @@ public class FoundItemController {
     @PostMapping("/save")
     public String saveFoundItem(@Valid @ModelAttribute("foundItem") FoundItem foundItem,
                                 BindingResult bindingResult,
-                                Authentication authentication) {
+                                @RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
+                                Authentication authentication,
+                                Model model) throws IOException {
+        FoundItem existing = null;
+        if (foundItem.getId() != null) {
+            existing = foundItemService.getFoundItem(foundItem.getId());
+            if (existing == null || !existing.getCreatedBy().equals(authentication.getName())) {
+                return "redirect:/found";
+            }
+            foundItem.setCreatedBy(existing.getCreatedBy());
+            foundItem.setStatus(existing.getStatus());
+            if (imageFile == null || imageFile.isEmpty()) {
+                foundItem.setImageData(existing.getImageData());
+                foundItem.setImageContentType(existing.getImageContentType());
+            }
+        }
+
+        if (imageFile != null && !imageFile.isEmpty()) {
+            String contentType = imageFile.getContentType();
+            if (contentType == null || !contentType.startsWith("image/")) {
+                model.addAttribute("imageUploadError", "Please upload a valid image file.");
+                return "found-form";
+            }
+            foundItem.setImageData(imageFile.getBytes());
+            foundItem.setImageContentType(contentType);
+        }
+
         if (bindingResult.hasErrors()) {
             return "found-form";
         }
@@ -67,10 +95,7 @@ public class FoundItemController {
             foundItem.setStatus("pending");
             foundItemService.createFoundItem(foundItem);
         } else {
-            FoundItem existing = foundItemService.getFoundItem(foundItem.getId());
-            if (existing != null && existing.getCreatedBy().equals(authentication.getName())) {
-                foundItemService.updateFoundItem(foundItem.getId(), foundItem);
-            }
+            foundItemService.updateFoundItem(foundItem.getId(), foundItem);
         }
 
         return "redirect:/found";

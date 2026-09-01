@@ -47,7 +47,8 @@
         <div class="col-md-4 col-sm-6" th:each="item : ${foundItems}">
             <div class="item-card">
                 <div class="item-card-img-container">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                    <img th:if="${item.imageData != null}" th:src="${item.imageDataUri}" alt="Found item image">
+                    <svg th:if="${item.imageData == null}" xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
                 </div>
                 <div class="item-card-body">
                     <div class="d-flex justify-content-between align-items-start mb-2">

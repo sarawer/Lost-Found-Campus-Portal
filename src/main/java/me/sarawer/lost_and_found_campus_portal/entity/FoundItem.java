@@ -4,11 +4,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Column;
+import jakarta.persistence.Lob;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.Base64;
 
 @Entity
 @Data
@@ -33,4 +36,17 @@ public class FoundItem {
     private String contactInfo;
     private String createdBy;
     private String status = "pending";
+
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] imageData;
+
+    private String imageContentType;
+
+    public String getImageDataUri() {
+        if (imageData == null || imageContentType == null) {
+            return null;
+        }
+        return "data:" + imageContentType + ";base64," + Base64.getEncoder().encodeToString(imageData);
+    }
 }

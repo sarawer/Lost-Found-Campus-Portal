@@ -9,7 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -58,7 +60,33 @@ public class LostItemController {
     @PostMapping("/save")
     public String saveLostItem(@Valid @ModelAttribute("lostItem") LostItem lostItem,
                                BindingResult bindingResult,
-                               Authentication authentication) {
+                               @RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
+                               Authentication authentication,
+                               Model model) throws IOException {
+        LostItem existing = null;
+        if (lostItem.getId() != null) {
+            existing = lostItemService.getLostItem(lostItem.getId());
+            if (existing == null || !existing.getCreatedBy().equals(authentication.getName())) {
+                return "redirect:/lost";
+            }
+            lostItem.setCreatedBy(existing.getCreatedBy());
+            lostItem.setStatus(existing.getStatus());
+            if (imageFile == null || imageFile.isEmpty()) {
+                lostItem.setImageData(existing.getImageData());
+                lostItem.setImageContentType(existing.getImageContentType());
+            }
+        }
+
+        if (imageFile != null && !imageFile.isEmpty()) {
+            String contentType = imageFile.getContentType();
+            if (contentType == null || !contentType.startsWith("image/")) {
+                model.addAttribute("imageUploadError", "Please upload a valid image file.");
+                return "lost-form";
+            }
+            lostItem.setImageData(imageFile.getBytes());
+            lostItem.setImageContentType(contentType);
+        }
+
         if (bindingResult.hasErrors()) {
             return "lost-form";
         }
@@ -68,10 +96,7 @@ public class LostItemController {
             lostItem.setStatus("pending");
             lostItemService.createLostItem(lostItem);
         } else {
-            LostItem existing = lostItemService.getLostItem(lostItem.getId());
-            if (existing != null && existing.getCreatedBy().equals(authentication.getName())) {
-                lostItemService.updateLostItem(lostItem.getId(), lostItem);
-            }
+            lostItemService.updateLostItem(lostItem.getId(), lostItem);
         }
 
         return "redirect:/lost";
