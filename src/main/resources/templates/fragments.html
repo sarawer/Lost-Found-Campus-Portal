@@ -25,9 +25,9 @@
 
                 <span sec:authorize="isAuthenticated()" class="d-flex align-items-center mt-2 mt-md-0">
                     <a sec:authorize="hasRole('ADMIN')" class="nav-btn me-md-3" th:classappend="${activePage == 'claims'} ? 'active' : ''" th:href="@{/claims}">Admin Dashboard</a>
-                    <span class="nav-user me-3 text-muted">
-                        Hi, <span class="text-main fw-bold" sec:authentication="name"></span>
-                    </span>
+<!--                    <span class="nav-user me-3 text-muted">-->
+<!--                        Hi, <span class="text-main fw-bold" sec:authentication="name"></span>-->
+<!--                    </span>-->
                     <form th:action="@{/logout}" method="post" class="d-inline m-0">
                         <button type="submit" class="nav-btn border-0 bg-transparent text-danger">Logout</button>
                     </form>
