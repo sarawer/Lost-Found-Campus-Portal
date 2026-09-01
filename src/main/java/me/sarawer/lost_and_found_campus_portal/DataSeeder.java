@@ -26,5 +26,6 @@ public class DataSeeder implements CommandLineRunner {
             admin.setRole("ADMIN");
             appUserRepository.save(admin);
         }
+
     }
 }
