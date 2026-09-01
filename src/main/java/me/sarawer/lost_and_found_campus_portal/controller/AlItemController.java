@@ -2,7 +2,6 @@ package me.sarawer.lost_and_found_campus_portal.controller;
 
 
 
-import lombok.RequiredArgsConstructor;
 import me.sarawer.lost_and_found_campus_portal.entity.FoundItem;
 import me.sarawer.lost_and_found_campus_portal.entity.LostItem;
 import me.sarawer.lost_and_found_campus_portal.service.FoundItemService;
@@ -17,12 +16,16 @@ import java.util.List;
 
 
 
-@RequiredArgsConstructor
 @RequestMapping("/browseItems")
 @Controller
 public class AlItemController {
     private final FoundItemService foundItemService;
     private final LostItemService lostItemService;
+
+    public AlItemController(FoundItemService foundItemService, LostItemService lostItemService) {
+        this.foundItemService = foundItemService;
+        this.lostItemService = lostItemService;
+    }
 
     @GetMapping
     public String browseItems(Model model) {

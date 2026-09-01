@@ -28,6 +28,50 @@ public class LostItemService {
         return lostItemRepository.findAll();
     }
 
+    public List<LostItem> getApprovedLostItems() {
+        return lostItemRepository.findByStatus("approved");
+    }
+
+    public List<LostItem> searchApprovedLostItems(String query) {
+        List<LostItem> items = getApprovedLostItems();
+        if (query == null || query.trim().isEmpty()) {
+            return items;
+        }
+
+        String searchText = query.trim().toLowerCase();
+        return items.stream()
+                .filter(item -> itemMatches(item, searchText))
+                .toList();
+    }
+
+    public List<LostItem> searchAllLostItems(String query) {
+        List<LostItem> items = allLostItems();
+        if (query == null || query.trim().isEmpty()) {
+            return items;
+        }
+
+        String searchText = query.trim().toLowerCase();
+        return items.stream()
+                .filter(item -> itemMatches(item, searchText))
+                .toList();
+    }
+
+    private boolean itemMatches(LostItem item, String searchText) {
+        if (item == null) {
+            return false;
+        }
+
+        return (item.getItemName() != null && item.getItemName().toLowerCase().contains(searchText))
+                || (item.getDescription() != null && item.getDescription().toLowerCase().contains(searchText))
+                || (item.getLostLocation() != null && item.getLostLocation().toLowerCase().contains(searchText))
+                || (item.getStudentId() != null && item.getStudentId().toLowerCase().contains(searchText))
+                || (item.getCreatedBy() != null && item.getCreatedBy().toLowerCase().contains(searchText));
+    }
+
+    public List<LostItem> getPendingLostItems() {
+        return lostItemRepository.findByStatus("pending");
+    }
+
     public LostItem updateLostItem(Long id, LostItem lostItemReq) {
         Optional<LostItem> existingLostItem = lostItemRepository.findById(id);
 

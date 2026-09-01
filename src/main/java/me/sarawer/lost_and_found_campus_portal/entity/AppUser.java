@@ -15,11 +15,9 @@ public class AppUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @Column(nullable = false)
     @NotBlank(message = "Full name cannot be blank")
     private String name;
-
 
     @Column(unique = true, nullable = false)
     @NotBlank(message = "SEU email cannot be blank")
@@ -29,7 +27,6 @@ public class AppUser {
             message = "Only Southeast University email (@seu.edu.bd) is allowed"
     )
     private String username;
-
 
     @Column(nullable = false)
     @NotBlank(message = "Password cannot be blank")
@@ -41,4 +38,6 @@ public class AppUser {
     @Transient
     @NotBlank(message = "Confirm password cannot be blank")
     private String confirmPassword;
+
+
 }

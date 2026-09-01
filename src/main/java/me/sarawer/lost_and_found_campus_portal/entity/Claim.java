@@ -6,12 +6,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
-import lombok.Data;
 
 import java.time.LocalDate;
 
 @Entity
-@Data
 public class Claim {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,4 +31,19 @@ public class Claim {
 
     @NotBlank(message = "Status cannot be blank")
     private String status = "pending";
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getItemName() { return itemName; }
+    public void setItemName(String itemName) { this.itemName = itemName; }
+    public String getClaimerStudentId() { return claimerStudentId; }
+    public void setClaimerStudentId(String claimerStudentId) { this.claimerStudentId = claimerStudentId; }
+    public String getClaimerName() { return claimerName; }
+    public void setClaimerName(String claimerName) { this.claimerName = claimerName; }
+    public String getClaimerContact() { return claimerContact; }
+    public void setClaimerContact(String claimerContact) { this.claimerContact = claimerContact; }
+    public LocalDate getClaimDate() { return claimDate; }
+    public void setClaimDate(LocalDate claimDate) { this.claimDate = claimDate; }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 }

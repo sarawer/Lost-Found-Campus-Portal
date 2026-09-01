@@ -1,9 +1,12 @@
 package me.sarawer.lost_and_found_campus_portal.controller;
 
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
+import me.sarawer.lost_and_found_campus_portal.entity.AppUser;
 import me.sarawer.lost_and_found_campus_portal.entity.FoundItem;
+import me.sarawer.lost_and_found_campus_portal.entity.ItemComment;
+import me.sarawer.lost_and_found_campus_portal.repository.AppUserRepository;
 import me.sarawer.lost_and_found_campus_portal.service.FoundItemService;
+import me.sarawer.lost_and_found_campus_portal.service.ItemCommentService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,28 +17,68 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
-@RequiredArgsConstructor
 @Controller
 @RequestMapping("/found")
 public class FoundItemController {
 
     private final FoundItemService foundItemService;
+    private final ItemCommentService itemCommentService;
+    private final AppUserRepository appUserRepository;
 
+    public FoundItemController(FoundItemService foundItemService, ItemCommentService itemCommentService, AppUserRepository appUserRepository) {
+        this.foundItemService = foundItemService;
+        this.itemCommentService = itemCommentService;
+        this.appUserRepository = appUserRepository;
+    }
 
     private boolean isAdmin(Authentication authentication) {
-        return authentication.getAuthorities().stream()
+        return authentication != null && authentication.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
     }
 
     @GetMapping
-    public String getAllFoundItems(Model model, Authentication authentication) {
-
+    public String getAllFoundItems(Model model, Authentication authentication, @RequestParam(value = "query", required = false) String query) {
         boolean admin = isAdmin(authentication);
-        List<FoundItem> items=foundItemService.allFoundItems();
-
+        List<FoundItem> items = admin
+                ? foundItemService.searchAllFoundItems(query)
+                : foundItemService.searchApprovedFoundItems(query);
         model.addAttribute("foundItems", items);
         model.addAttribute("isAdmin", admin);
+        model.addAttribute("query", query);
         return "found-items";
+    }
+
+    @GetMapping("/{id}")
+    public String showFoundItemDetail(@PathVariable Long id, Model model) {
+        FoundItem item = foundItemService.getFoundItem(id);
+        if (item == null || !"approved".equalsIgnoreCase(item.getStatus())) {
+            return "redirect:/found";
+        }
+
+        model.addAttribute("item", item);
+        model.addAttribute("comments", itemCommentService.getCommentsForFoundItem(item));
+        model.addAttribute("newComment", new ItemComment());
+        return "found-detail";
+    }
+
+    @PostMapping("/{id}/comments")
+    public String addFoundComment(@PathVariable Long id, @RequestParam("content") String content, Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return "redirect:/login";
+        }
+
+        FoundItem item = foundItemService.getFoundItem(id);
+        if (item == null || !"approved".equalsIgnoreCase(item.getStatus())) {
+            return "redirect:/found";
+        }
+
+        AppUser currentUser = appUserRepository.findAppUsersByUsername(authentication.getName());
+        if (currentUser == null) {
+            return "redirect:/found/" + id;
+        }
+
+        itemCommentService.createCommentForFoundItem(item, currentUser, content);
+        return "redirect:/found/" + id;
     }
 
     @GetMapping("/add")

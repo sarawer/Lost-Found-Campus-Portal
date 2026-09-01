@@ -1,8 +1,11 @@
 package me.sarawer.lost_and_found_campus_portal.controller;
 
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
+import me.sarawer.lost_and_found_campus_portal.entity.AppUser;
+import me.sarawer.lost_and_found_campus_portal.entity.ItemComment;
 import me.sarawer.lost_and_found_campus_portal.entity.LostItem;
+import me.sarawer.lost_and_found_campus_portal.repository.AppUserRepository;
+import me.sarawer.lost_and_found_campus_portal.service.ItemCommentService;
 import me.sarawer.lost_and_found_campus_portal.service.LostItemService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -15,28 +18,67 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-@RequiredArgsConstructor
 @RequestMapping("/lost")
 public class LostItemController {
 
     private final LostItemService lostItemService;
+    private final ItemCommentService itemCommentService;
+    private final AppUserRepository appUserRepository;
 
+    public LostItemController(LostItemService lostItemService, ItemCommentService itemCommentService, AppUserRepository appUserRepository) {
+        this.lostItemService = lostItemService;
+        this.itemCommentService = itemCommentService;
+        this.appUserRepository = appUserRepository;
+    }
 
     private boolean isAdmin(Authentication authentication) {
-        return authentication.getAuthorities().stream()
+        return authentication != null && authentication.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
     }
 
     @GetMapping
-    public String getAllLostItems(Model model, Authentication authentication) {
-
+    public String getAllLostItems(Model model, Authentication authentication, @RequestParam(value = "query", required = false) String query) {
         boolean admin = isAdmin(authentication);
-        List<LostItem>items = lostItemService.allLostItems();
-
+        List<LostItem> items = admin
+                ? lostItemService.searchAllLostItems(query)
+                : lostItemService.searchApprovedLostItems(query);
         model.addAttribute("lostItems", items);
         model.addAttribute("isAdmin", admin);
+        model.addAttribute("query", query);
         return "lost-items";
+    }
 
+    @GetMapping("/{id}")
+    public String showLostItemDetail(@PathVariable Long id, Model model) {
+        LostItem item = lostItemService.getLostItem(id);
+        if (item == null || !"approved".equalsIgnoreCase(item.getStatus())) {
+            return "redirect:/lost";
+        }
+
+        model.addAttribute("item", item);
+        model.addAttribute("comments", itemCommentService.getCommentsForLostItem(item));
+        model.addAttribute("newComment", new ItemComment());
+        return "lost-detail";
+    }
+
+    @PostMapping("/{id}/comments")
+    public String addLostComment(@PathVariable Long id, @RequestParam("content") String content, Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return "redirect:/login";
+        }
+
+        LostItem item = lostItemService.getLostItem(id);
+        if (item == null || !"approved".equalsIgnoreCase(item.getStatus())) {
+            return "redirect:/lost";
+        }
+
+        AppUser currentUser = appUserRepository.findAppUsersByUsername(authentication.getName());
+        if (currentUser == null) {
+            return "redirect:/lost/" + id;
+        }
+
+        itemCommentService.createCommentForLostItem(item, currentUser, content);
+        return "redirect:/lost/" + id;
     }
 
     @GetMapping("/add")
@@ -113,7 +155,6 @@ public class LostItemController {
         return "redirect:/lost";
     }
 
-    // শুধু Admin ব্যবহার করবে - status বদলানোর জন্য
     @PostMapping("/status/{id}")
     public String updateStatus(@PathVariable Long id, @RequestParam String status) {
         lostItemService.updateStatus(id, status);

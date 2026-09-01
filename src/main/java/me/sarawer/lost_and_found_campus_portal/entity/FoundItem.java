@@ -8,13 +8,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Lob;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
-import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.Base64;
 
 @Entity
-@Data
 public class FoundItem {
 
     @Id
@@ -42,6 +40,29 @@ public class FoundItem {
     private byte[] imageData;
 
     private String imageContentType;
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getStudentId() { return studentId; }
+    public void setStudentId(String studentId) { this.studentId = studentId; }
+    public String getItemName() { return itemName; }
+    public void setItemName(String itemName) { this.itemName = itemName; }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+    public String getFoundLocation() { return foundLocation; }
+    public void setFoundLocation(String foundLocation) { this.foundLocation = foundLocation; }
+    public LocalDate getFoundDate() { return foundDate; }
+    public void setFoundDate(LocalDate foundDate) { this.foundDate = foundDate; }
+    public String getContactInfo() { return contactInfo; }
+    public void setContactInfo(String contactInfo) { this.contactInfo = contactInfo; }
+    public String getCreatedBy() { return createdBy; }
+    public void setCreatedBy(String createdBy) { this.createdBy = createdBy; }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+    public byte[] getImageData() { return imageData; }
+    public void setImageData(byte[] imageData) { this.imageData = imageData; }
+    public String getImageContentType() { return imageContentType; }
+    public void setImageContentType(String imageContentType) { this.imageContentType = imageContentType; }
 
     public String getImageDataUri() {
         if (imageData == null || imageContentType == null) {

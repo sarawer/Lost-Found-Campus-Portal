@@ -1,63 +1,53 @@
 package me.sarawer.lost_and_found_campus_portal.controller;
 
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import me.sarawer.lost_and_found_campus_portal.entity.Claim;
-import me.sarawer.lost_and_found_campus_portal.service.ClaimService;
+import me.sarawer.lost_and_found_campus_portal.service.FoundItemService;
+import me.sarawer.lost_and_found_campus_portal.service.LostItemService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-@RequiredArgsConstructor
 @Controller
-@RequestMapping("claims")
+@RequestMapping("/claims")
+@PreAuthorize("hasRole('ADMIN')")
 public class ClaimController {
-    private final ClaimService claimService;
 
+    private final LostItemService lostItemService;
+    private final FoundItemService foundItemService;
+
+    public ClaimController(LostItemService lostItemService, FoundItemService foundItemService) {
+        this.lostItemService = lostItemService;
+        this.foundItemService = foundItemService;
+    }
 
     @GetMapping
-    public String getAllClaims(Model model) {
-        model.addAttribute("claims", claimService.getAllClaims());
+    public String showAdminDashboard(Model model) {
+        model.addAttribute("pendingLostItems", lostItemService.getPendingLostItems());
+        model.addAttribute("pendingFoundItems", foundItemService.getPendingFoundItems());
         return "claims";
     }
 
-    @GetMapping("/add")
-    public String showAddForm(Model model) {
-        Claim claim = new Claim();
-        claim.setStatus("pending");
-        model.addAttribute("claim", claim);
-        return "claim-form";
-    }
-
-    @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable Long id, Model model) {
-        Claim claim = claimService.getClaim(id);
-
-        if (claim == null) {
-            return "redirect:/claims";
-        }
-
-        model.addAttribute("claim", claim);
-        return "claim-form";
-    }
-
-    @PostMapping("/save")
-    public String saveClaim(@Valid @ModelAttribute("claim") Claim claim, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "claim-form";
-        }
-        if (claim.getId() == null) {
-            claimService.createClaim(claim);
-        } else {
-            claimService.updateClaim(claim.getId(), claim);
-        }
+    @PostMapping("/lost/{id}/approve")
+    public String approveLost(@PathVariable Long id) {
+        lostItemService.updateStatus(id, "approved");
         return "redirect:/claims";
     }
 
-    @GetMapping("/delete/{id}")
-    public String deleteClaim(@PathVariable Long id) {
-        claimService.deleteClaim(id);
+    @PostMapping("/lost/{id}/delete")
+    public String deleteLost(@PathVariable Long id) {
+        lostItemService.deleteLostItem(id);
+        return "redirect:/claims";
+    }
+
+    @PostMapping("/found/{id}/approve")
+    public String approveFound(@PathVariable Long id) {
+        foundItemService.updateStatus(id, "approved");
+        return "redirect:/claims";
+    }
+
+    @PostMapping("/found/{id}/delete")
+    public String deleteFound(@PathVariable Long id) {
+        foundItemService.deleteFoundItem(id);
         return "redirect:/claims";
     }
 }

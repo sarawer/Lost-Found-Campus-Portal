@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface LostItemRepository extends JpaRepository<LostItem, Long> {
     List<LostItem> findByCreatedBy(String createdBy);
+    List<LostItem> findByStatus(String status);
 }
