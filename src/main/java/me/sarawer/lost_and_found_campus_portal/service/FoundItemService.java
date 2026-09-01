@@ -1,5 +1,6 @@
 package me.sarawer.lost_and_found_campus_portal.service;
 
+import lombok.RequiredArgsConstructor;
 import me.sarawer.lost_and_found_campus_portal.entity.FoundItem;
 import me.sarawer.lost_and_found_campus_portal.entity.LostItem;
 import me.sarawer.lost_and_found_campus_portal.repository.FoundItemRepository;
@@ -8,13 +9,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class FoundItemService {
-    private FoundItemRepository foundItemRepository;
-
-    public FoundItemService(FoundItemRepository foundItemRepository) {
-        this.foundItemRepository = foundItemRepository;
-    }
+    private final FoundItemRepository foundItemRepository;
 
     public FoundItem createFoundItem(FoundItem foundItemReq) {
         return foundItemRepository.save(foundItemReq);
@@ -26,6 +24,7 @@ public class FoundItemService {
 
     public List<FoundItem> getAllFoundItems() {
         return foundItemRepository.findAll();
+
     }
 
     public FoundItem updateFoundItem(Long id, FoundItem foundItemReq) {
@@ -52,6 +51,9 @@ public class FoundItemService {
         return true;
     }
 
+    public List<FoundItem> allFoundItems() {
+        return foundItemRepository.findAll();
+    }
     public List<FoundItem> getFoundItemByUser(String username) {
         return foundItemRepository.findByCreatedBy(username);
     }

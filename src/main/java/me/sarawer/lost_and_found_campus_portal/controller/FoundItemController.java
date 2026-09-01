@@ -27,13 +27,7 @@ public class FoundItemController {
     public String getAllFoundItems(Model model, Authentication authentication) {
 
         boolean admin = isAdmin(authentication);
-        List<FoundItem> items;
-
-        if (admin) {
-            items =foundItemService.getAllFoundItems();
-        } else {
-            items = foundItemService.getFoundItemByUser(authentication.getName());
-        }
+        List<FoundItem> items=foundItemService.allFoundItems();
 
         model.addAttribute("foundItems", items);
         model.addAttribute("isAdmin", admin);
