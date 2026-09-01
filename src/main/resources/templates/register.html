@@ -25,99 +25,40 @@
             <p class="text-muted">Join SEU CampusFinder</p>
         </div>
 
-        <div th:if="${error}" class="alert alert-danger border-0 bg-danger bg-opacity-10 text-danger rounded-3 p-3 mb-4 fs-6" th:text="${error}"></div>
-
-        <form id="registerForm" th:action="@{/register}" th:object="${appUser}" method="post">
-
-            <div id="clientError" th:if="${false}" class="alert alert-danger border-0 bg-danger bg-opacity-10 text-danger rounded-3 p-3 mb-4 fs-6" style="display:none;"></div>
+        <form id="registerForm" th:action="@{/register}" th:object="${appUser}" method="post" novalidate>
+            <div th:if="${#fields.hasAnyErrors() or (passwordMismatch != null and passwordMismatch) or (userTaken != null and userTaken)}" class="form-alert mb-4">
+                <span class="form-alert-icon">!</span>
+                <span>Please fix the highlighted fields and try again.</span>
+            </div>
 
             <div class="mb-3">
                 <label class="form-label">Full Name</label>
-                <input type="text" class="form-control form-control-lg" th:field="*{name}" placeholder="Enter your full name" required>
+                <input type="text" class="form-control form-control-lg" th:field="*{name}" th:classappend="${#fields.hasErrors('name')} ? ' is-invalid' : ''" placeholder="Enter your full name" required autofocus>
+                <div class="invalid-feedback d-block field-error-message" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Southeast University Email</label>
-                <input type="email" class="form-control form-control-lg" th:field="*{username}" placeholder="student@seu.edu.bd" pattern=".+@seu\.edu\.bd$" required>
+                <input type="email" class="form-control form-control-lg" th:field="*{username}" th:classappend="${#fields.hasErrors('username') or (userTaken != null and userTaken)} ? ' is-invalid' : ''" placeholder="student@seu.edu.bd" required>
+                <div class="invalid-feedback d-block field-error-message" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+                <div class="invalid-feedback d-block field-error-message" th:if="${userTaken != null and userTaken}">This SEU email is already registered.</div>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Password</label>
-                <input type="password" class="form-control form-control-lg" th:field="*{password}" placeholder="Enter your password" required>
+                <input type="password" class="form-control form-control-lg" th:field="*{password}" th:classappend="${#fields.hasErrors('password')} ? ' is-invalid' : ''" placeholder="Enter your password" required>
+                <div class="invalid-feedback d-block field-error-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
             </div>
 
             <div class="mb-4">
                 <label class="form-label">Confirm Password</label>
-                <input type="password" class="form-control form-control-lg" th:field="*{confirmPassword}" placeholder="Confirm your password" required>
+                <input type="password" class="form-control form-control-lg" th:field="*{confirmPassword}" th:classappend="${#fields.hasErrors('confirmPassword') or (passwordMismatch != null and passwordMismatch)} ? ' is-invalid' : ''" placeholder="Confirm your password" required>
+                <div class="invalid-feedback d-block field-error-message" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></div>
+                <div class="invalid-feedback d-block field-error-message" th:if="${passwordMismatch != null and passwordMismatch}">Password and Confirm Password do not match.</div>
             </div>
 
             <button type="submit" class="btn btn-primary btn-lg w-100 mb-3 rounded-pill fw-bold">Register</button>
         </form>
-
-        <script>
-            // Client-side validation to improve UX (keeps server-side validation as authoritative)
-            (function(){
-                const form = document.getElementById('registerForm');
-                const clientError = document.getElementById('clientError');
-
-                function showError(msg) {
-                    clientError.textContent = msg;
-                    clientError.style.display = 'block';
-                }
-
-                function hideError() {
-                    clientError.textContent = '';
-                    clientError.style.display = 'none';
-                }
-
-                form.addEventListener('submit', function(e){
-                    hideError();
-
-                    const name = form.querySelector('[name="name"]').value.trim();
-                    const username = form.querySelector('[name="username"]').value.trim();
-                    const password = form.querySelector('[name="password"]').value;
-                    const confirm = form.querySelector('[name="confirmPassword"]').value;
-
-                    if (!name) {
-                        e.preventDefault();
-                        showError('Full name must not be blank.');
-                        return;
-                    }
-
-                    if (!username) {
-                        e.preventDefault();
-                        showError('SEU email must not be blank.');
-                        return;
-                    }
-
-                    if (!username.toLowerCase().endsWith('@seu.edu.bd')) {
-                        e.preventDefault();
-                        showError('SEU email must end with @seu.edu.bd.');
-                        return;
-                    }
-
-                    if (!password) {
-                        e.preventDefault();
-                        showError('Password must not be blank.');
-                        return;
-                    }
-
-                    if (!confirm) {
-                        e.preventDefault();
-                        showError('Please confirm your password.');
-                        return;
-                    }
-
-                    if (password !== confirm) {
-                        e.preventDefault();
-                        showError('Password and Confirm Password do not match.');
-                        return;
-                    }
-
-                    // allow submit; server-side will perform final validation
-                });
-            })();
-        </script>
 
         <p class="text-center mt-4 mb-0 text-muted" style="font-size: 0.95rem;">
             Already have an account? <a th:href="@{/login}" class="text-primary text-decoration-none fw-bold">Login here</a>

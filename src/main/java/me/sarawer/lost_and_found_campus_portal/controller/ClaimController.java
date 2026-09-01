@@ -1,10 +1,12 @@
 package me.sarawer.lost_and_found_campus_portal.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import me.sarawer.lost_and_found_campus_portal.entity.Claim;
 import me.sarawer.lost_and_found_campus_portal.service.ClaimService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -41,7 +43,10 @@ public class ClaimController {
     }
 
     @PostMapping("/save")
-    public String saveClaim(@ModelAttribute Claim claim) {
+    public String saveClaim(@Valid @ModelAttribute("claim") Claim claim, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "claim-form";
+        }
         if (claim.getId() == null) {
             claimService.createClaim(claim);
         } else {

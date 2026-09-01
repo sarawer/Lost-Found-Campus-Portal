@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -16,11 +18,18 @@ public class LostItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Student ID cannot be blank")
     private String studentId;
+
+    @NotBlank(message = "Item name cannot be blank")
     private String itemName;
+
     private String description;
     private String lostLocation;
+
+    @PastOrPresent(message = "Lost date cannot be in the future")
     private LocalDate lostDate;
+
     private String contactInfo;
     private String createdBy;
     private String status = "pending";

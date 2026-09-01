@@ -1,11 +1,13 @@
 package me.sarawer.lost_and_found_campus_portal.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import me.sarawer.lost_and_found_campus_portal.entity.LostItem;
 import me.sarawer.lost_and_found_campus_portal.service.LostItemService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -54,7 +56,12 @@ public class LostItemController {
     }
 
     @PostMapping("/save")
-    public String saveLostItem(@ModelAttribute LostItem lostItem, Authentication authentication) {
+    public String saveLostItem(@Valid @ModelAttribute("lostItem") LostItem lostItem,
+                               BindingResult bindingResult,
+                               Authentication authentication) {
+        if (bindingResult.hasErrors()) {
+            return "lost-form";
+        }
 
         if (lostItem.getId() == null) {
             lostItem.setCreatedBy(authentication.getName());

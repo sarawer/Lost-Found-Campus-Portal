@@ -28,10 +28,15 @@
         <form th:action="@{/lost/save}" th:object="${lostItem}" method="post">
             <input type="hidden" th:field="*{id}"/>
 
+            <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger border-0 bg-danger bg-opacity-10 text-danger rounded-3 p-3 mb-3 fs-6">
+                Please fix the highlighted fields and try again.
+            </div>
+
             <div class="row gx-3">
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Student ID</label>
-                    <input type="text" class="form-control" th:field="*{studentId}" required placeholder="e.g. 20240001">
+                    <input type="text" class="form-control" th:field="*{studentId}" th:classappend="${#fields.hasErrors('studentId')} ? ' is-invalid' : ''" required placeholder="e.g. 20240001">
+                    <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('studentId')}" th:errors="*{studentId}"></div>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Contact Info (Private)</label>
@@ -41,7 +46,8 @@
 
             <div class="mb-3">
                 <label class="form-label">Item Name</label>
-                <input type="text" class="form-control" th:field="*{itemName}" required placeholder="e.g. Black Leather Wallet">
+                <input type="text" class="form-control" th:field="*{itemName}" th:classappend="${#fields.hasErrors('itemName')} ? ' is-invalid' : ''" required placeholder="e.g. Black Leather Wallet">
+                <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('itemName')}" th:errors="*{itemName}"></div>
             </div>
 
             <div class="mb-3">
@@ -56,7 +62,8 @@
                 </div>
                 <div class="col-md-6 mb-4">
                     <label class="form-label">Lost Date</label>
-                    <input type="date" class="form-control" th:field="*{lostDate}">
+                    <input type="date" class="form-control" th:field="*{lostDate}" th:classappend="${#fields.hasErrors('lostDate')} ? ' is-invalid' : ''">
+                    <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('lostDate')}" th:errors="*{lostDate}"></div>
                 </div>
             </div>
 

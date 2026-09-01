@@ -27,19 +27,26 @@
         <form th:action="@{/claims/save}" th:object="${claim}" method="post">
             <input type="hidden" th:field="*{id}"/>
 
+            <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger border-0 bg-danger bg-opacity-10 text-danger rounded-3 p-3 mb-3 fs-6">
+                Please fix the highlighted fields and try again.
+            </div>
+
             <div class="mb-3">
                 <label class="form-label">Item Name</label>
-                <input type="text" class="form-control" th:field="*{itemName}" required placeholder="Name of the item you are claiming">
+                <input type="text" class="form-control" th:field="*{itemName}" th:classappend="${#fields.hasErrors('itemName')} ? ' is-invalid' : ''" required placeholder="Name of the item you are claiming">
+                <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('itemName')}" th:errors="*{itemName}"></div>
             </div>
 
             <div class="row gx-3">
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Your Student ID</label>
-                    <input type="text" class="form-control" th:field="*{claimerStudentId}" required placeholder="e.g. 20240001">
+                    <input type="text" class="form-control" th:field="*{claimerStudentId}" th:classappend="${#fields.hasErrors('claimerStudentId')} ? ' is-invalid' : ''" required placeholder="e.g. 20240001">
+                    <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('claimerStudentId')}" th:errors="*{claimerStudentId}"></div>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Your Full Name</label>
-                    <input type="text" class="form-control" th:field="*{claimerName}" required>
+                    <input type="text" class="form-control" th:field="*{claimerName}" th:classappend="${#fields.hasErrors('claimerName')} ? ' is-invalid' : ''" required>
+                    <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('claimerName')}" th:errors="*{claimerName}"></div>
                 </div>
             </div>
 
@@ -50,17 +57,19 @@
                 </div>
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Approx. Lost/Found Date</label>
-                    <input type="date" class="form-control" th:field="*{claimDate}">
+                    <input type="date" class="form-control" th:field="*{claimDate}" th:classappend="${#fields.hasErrors('claimDate')} ? ' is-invalid' : ''">
+                    <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('claimDate')}" th:errors="*{claimDate}"></div>
                 </div>
             </div>
 
             <div class="mb-4" sec:authorize="hasRole('ADMIN')">
                 <label class="form-label text-danger fw-bold">Admin: Status</label>
-                <select class="form-select border-danger" th:field="*{status}">
+                <select class="form-select border-danger" th:field="*{status}" th:classappend="${#fields.hasErrors('status')} ? ' is-invalid' : ''">
                     <option value="pending">Pending</option>
                     <option value="approved">Approved</option>
                     <option value="rejected">Rejected</option>
                 </select>
+                <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></div>
             </div>
             
             <!-- Hide status select for normal users and force pending, though the controller should handle this. We hide it for non-admins -->
