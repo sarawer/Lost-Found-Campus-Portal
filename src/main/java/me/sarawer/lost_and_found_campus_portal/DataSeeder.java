@@ -20,10 +20,11 @@ public class DataSeeder implements CommandLineRunner {
     @Override
     public void run(String... args) {
 
-        AppUser existingAdmin = appUserRepository.findAppUsersByUsername("admin");
+        AppUser existingAdmin = appUserRepository.findAppUsersByUsername("admin@seu.edu.bd");
 
         if (existingAdmin == null) {
             AppUser admin = new AppUser();
+            admin.setName("System Admin");
             admin.setUsername("admin@seu.edu.bd");
             admin.setPassword(passwordEncoder.encode("admin123"));
             admin.setRole("ADMIN");

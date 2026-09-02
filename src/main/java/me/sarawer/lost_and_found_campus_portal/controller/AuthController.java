@@ -30,6 +30,10 @@ public class AuthController {
         model.addAttribute("passwordMismatch", false);
         model.addAttribute("userTaken", false);
 
+        if (appUser.getConfirmPassword() == null || appUser.getConfirmPassword().isBlank()) {
+            bindingResult.rejectValue("confirmPassword", "NotBlank", "Confirm password cannot be blank");
+        }
+
         boolean passwordMismatch = appUser.getPassword() != null
                 && appUser.getConfirmPassword() != null
                 && !appUser.getPassword().equals(appUser.getConfirmPassword());
