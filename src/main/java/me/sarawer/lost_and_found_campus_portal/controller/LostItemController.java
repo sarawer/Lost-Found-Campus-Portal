@@ -55,7 +55,9 @@ public class LostItemController {
             return "redirect:/lost";
         }
 
+        AppUser reporter = appUserRepository.findAppUsersByUsername(item.getCreatedBy());
         model.addAttribute("item", item);
+        model.addAttribute("reporter", reporter);
         model.addAttribute("comments", itemCommentService.getCommentsForLostItem(item));
         model.addAttribute("newComment", new ItemComment());
         return "lost-detail";
@@ -113,6 +115,7 @@ public class LostItemController {
             }
             lostItem.setCreatedBy(existing.getCreatedBy());
             lostItem.setStatus(existing.getStatus());
+            lostItem.setCreatedAt(existing.getCreatedAt());
             if (imageFile == null || imageFile.isEmpty()) {
                 lostItem.setImageData(existing.getImageData());
                 lostItem.setImageContentType(existing.getImageContentType());
