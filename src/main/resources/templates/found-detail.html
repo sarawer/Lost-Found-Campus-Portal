@@ -11,39 +11,51 @@
 
 <div th:replace="~{fragments :: navbar('found')}"></div>
 
-<div class="container py-5 flex-grow-1">
-    <div class="row g-4">
+<div class="container py-4 py-lg-5 flex-grow-1">
+    <div class="row g-4 align-items-start">
         <div class="col-lg-7">
             <div class="item-detail-card">
                 <div class="item-detail-image-wrap">
-                    <img th:if="${item.imageData != null}" th:src="${item.imageDataUri}" alt="Found item image" class="img-fluid">
+                    <img th:if="${item.imageData != null}" th:src="${item.imageDataUri}" alt="Found item image" class="item-detail-image">
                     <div th:if="${item.imageData == null}" class="item-detail-placeholder">
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
                     </div>
                 </div>
-                <div class="p-4">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
+
+                <div class="item-detail-content">
+                    <div class="d-flex justify-content-between align-items-center gap-3 mb-3">
                         <span class="badge badge-found">FOUND</span>
-                        <span class="text-muted small" th:text="${item.status != null ? #strings.toUpperCase(item.status) : 'PENDING'}"></span>
+                        <span class="detail-status" th:text="${item.status != null ? #strings.toUpperCase(item.status) : 'PENDING'}">APPROVED</span>
                     </div>
-                    <h2 class="fw-bold mb-3" th:text="${item.itemName}">Item Name</h2>
+
+                    <h1 class="item-detail-title" th:text="${item.itemName}">Item Name</h1>
+
                     <div class="detail-grid">
-                        <div>
-                            <span class="detail-label">Location</span>
-                            <span class="detail-value" th:text="${item.foundLocation != null ? item.foundLocation : 'Location not provided'}"></span>
+                        <div class="detail-field">
+                            <span class="detail-label">Found Location</span>
+                            <span class="detail-value" th:text="${item.foundLocation != null and !#strings.isEmpty(item.foundLocation) ? item.foundLocation : 'Location not provided'}"></span>
                         </div>
-                        <div>
-                            <span class="detail-label">Date</span>
-                            <span class="detail-value" th:text="${item.foundDate != null ? item.foundDate : 'Date not provided'}"></span>
+                        <div class="detail-field">
+                            <span class="detail-label">Found Date</span>
+                            <span class="detail-value" th:text="${item.foundDate != null ? #temporals.format(item.foundDate, 'dd MMM yyyy') : 'Date not provided'}"></span>
                         </div>
-                        <div>
-                            <span class="detail-label">Reporter</span>
-                            <span class="detail-value" th:text="${item.createdBy != null ? item.createdBy : 'Unknown'}"></span>
+                        <div class="detail-field">
+                            <span class="detail-label">Report Date</span>
+                            <span class="detail-value" th:text="${item.createdAt != null ? #temporals.format(item.createdAt, 'dd MMM yyyy, hh:mm a') : 'Date not available'}"></span>
+                        </div>
+                        <div class="detail-field">
+                            <span class="detail-label">Reporter Name</span>
+                            <span class="detail-value" th:text="${reporter != null ? reporter.name : 'Unknown'}"></span>
+                        </div>
+                        <div class="detail-field detail-field-wide">
+                            <span class="detail-label">Reporter Email</span>
+                            <span class="detail-value detail-email" th:text="${reporter != null ? reporter.username : (item.createdBy != null ? item.createdBy : 'Not available')}"></span>
                         </div>
                     </div>
-                    <div class="mt-4">
-                        <h5 class="fw-bold mb-2">Description</h5>
-                        <p class="text-muted mb-0" th:text="${item.description != null and !#strings.isEmpty(item.description) ? item.description : 'No description provided.'}"></p>
+
+                    <div class="detail-description">
+                        <h5 class="detail-section-title">Description</h5>
+                        <p th:text="${item.description != null and !#strings.isEmpty(item.description) ? item.description : 'No description provided.'}"></p>
                     </div>
                 </div>
             </div>
@@ -51,7 +63,10 @@
 
         <div class="col-lg-5">
             <div class="comment-panel">
-                <h4 class="fw-bold mb-3">Comments</h4>
+                <div class="comment-panel-header">
+                    <h4 class="fw-bold mb-1">Comments</h4>
+                    <p class="comment-panel-subtitle">See what other students have to say.</p>
+                </div>
 
                 <div th:if="${#lists.isEmpty(comments)}" class="empty-comment">
                     No comments yet. Be the first to leave one.
@@ -67,7 +82,7 @@
                     </div>
                 </div>
 
-                <form th:action="@{/found/{id}/comments(id=${item.id})}" method="post" class="comment-form mt-4">
+                <form th:action="@{/found/{id}/comments(id=${item.id})}" method="post" class="comment-form">
                     <label class="form-label fw-medium">Write a comment</label>
                     <textarea name="content" rows="4" class="form-control" placeholder="Write a comment..."></textarea>
                     <button type="submit" class="btn btn-primary mt-3 w-100">Post Comment</button>
