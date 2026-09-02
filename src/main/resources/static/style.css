@@ -936,3 +936,164 @@ h1, h2, h3, h4, h5, h6 {
 .icon-green { background-color: #DCFCE7; color: #16A34A; }
 .icon-amber { background-color: #FEF3C7; color: #D97706; }
 .icon-indigo { background-color: #E0E7FF; color: #4F46E5; }
+
+
+/* =========================================================
+   SUGGESTED ADDITIONS — append to the existing style.css
+   Every value below reuses existing tokens (colors, radii,
+   shadows, spacing scale) already defined in :root and the
+   component classes above. No new colors are introduced.
+   ========================================================= */
+
+/* ---------- Breadcrumb (new, subtle wayfinding above the form) ---------- */
+.form-breadcrumb {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+}
+.form-breadcrumb a {
+    color: var(--secondary-blue);
+    text-decoration: none;
+    font-weight: 500;
+}
+.form-breadcrumb a:hover {
+    color: var(--primary-navy);
+    text-decoration: underline;
+}
+.form-breadcrumb .sep {
+    color: var(--border-color);
+    margin: 0 0.4rem;
+}
+
+/* ---------- Form section headers (groups related fields) ---------- */
+.form-section {
+    margin-bottom: 2rem;
+}
+.form-section:last-of-type {
+    margin-bottom: 1.5rem;
+}
+.form-section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--secondary-blue);
+    margin-bottom: 1rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--border-color);
+}
+.form-section-title svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+/* ---------- Small icon badge used in the form-card header ---------- */
+.icon-circle-sm {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 0.9rem auto;
+}
+.icon-circle-sm svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* Reuses the exact colors already defined for .badge-lost / .badge-found */
+.icon-circle-sm.icon-lost { background-color: #FEE2E2; color: #991B1B; }
+.icon-circle-sm.icon-found { background-color: #D1FAE5; color: #065F46; }
+
+/* ---------- Upload dropzone (visual upgrade over the bare file input) ---------- */
+.upload-dropzone {
+    position: relative;
+    border: 1.5px dashed var(--border-color);
+    border-radius: var(--radius-md);
+    background-color: #F8FAFC;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+.upload-dropzone:hover,
+.upload-dropzone.is-focused {
+    border-color: var(--primary-navy);
+    background-color: #FFFFFF;
+}
+.upload-dropzone input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+.upload-dropzone-icon {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto 0.6rem auto;
+    border-radius: 50%;
+    background-color: #E2E8F0;
+    color: var(--secondary-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.upload-dropzone-icon svg {
+    width: 18px;
+    height: 18px;
+}
+.upload-dropzone-text {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-main);
+    margin-bottom: 0.2rem;
+}
+.upload-dropzone-hint {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+.upload-filename {
+    margin-top: 0.6rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--primary-navy);
+}
+
+/* ---------- Current image preview, tidied up as a labeled card ---------- */
+.current-image-card {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background-color: #F8FAFC;
+    padding: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+}
+.current-image-card img {
+    width: 84px;
+    height: 84px;
+    object-fit: cover;
+    border-radius: 0.6rem;
+    flex-shrink: 0;
+}
+.current-image-card-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* ---------- Slightly stronger focus ring for accessibility on required fields ---------- */
+.form-control:required:focus,
+.form-select:required:focus {
+    box-shadow: 0 0 0 3px rgba(16, 42, 67, 0.12);
+}
+
+/* ---------- Required-field marker (accessible, decorative asterisk) ---------- */
+.required-mark {
+    color: var(--danger-red);
+    margin-left: 0.15rem;
+}
