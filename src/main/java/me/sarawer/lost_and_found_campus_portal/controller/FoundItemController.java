@@ -55,7 +55,9 @@ public class FoundItemController {
             return "redirect:/found";
         }
 
+        AppUser reporter = appUserRepository.findAppUsersByUsername(item.getCreatedBy());
         model.addAttribute("item", item);
+        model.addAttribute("reporter", reporter);
         model.addAttribute("comments", itemCommentService.getCommentsForFoundItem(item));
         model.addAttribute("newComment", new ItemComment());
         return "found-detail";
@@ -113,6 +115,7 @@ public class FoundItemController {
             }
             foundItem.setCreatedBy(existing.getCreatedBy());
             foundItem.setStatus(existing.getStatus());
+            foundItem.setCreatedAt(existing.getCreatedAt());
             if (imageFile == null || imageFile.isEmpty()) {
                 foundItem.setImageData(existing.getImageData());
                 foundItem.setImageContentType(existing.getImageContentType());
