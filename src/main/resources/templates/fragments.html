@@ -2,7 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
-
 <nav th:fragment="navbar(activePage)" class="navbar navbar-expand-md site-navbar sticky-top">
     <div class="container d-flex align-items-center justify-content-between">
         <a class="navbar-brand d-flex align-items-center" th:href="@{/}">
@@ -17,32 +16,28 @@
                 <a class="nav-btn me-md-2" th:classappend="${activePage == 'home'} ? 'active' : ''" th:href="@{/}">Home</a>
                 <a class="nav-btn me-md-2" th:classappend="${activePage == 'lost'} ? 'active' : ''" th:href="@{/lost}">Lost Items</a>
                 <a class="nav-btn me-md-3" th:classappend="${activePage == 'found'} ? 'active' : ''" th:href="@{/found}">Found Items</a>
-
                 <span sec:authorize="!isAuthenticated()" class="d-flex mt-2 mt-md-0">
                     <a class="nav-btn me-2" th:href="@{/login}">Login</a>
                     <a class="nav-btn nav-btn-primary" th:href="@{/register}">Register</a>
                 </span>
-
                 <span sec:authorize="isAuthenticated()" class="d-flex align-items-center mt-2 mt-md-0">
+                    <a class="nav-btn me-md-3" th:classappend="${activePage == 'my-reports'} ? 'active' : ''" th:href="@{/my-reports}">My Reports</a>
                     <a sec:authorize="hasRole('ADMIN')" class="nav-btn me-md-3" th:classappend="${activePage == 'claims'} ? 'active' : ''" th:href="@{/claims}">Admin Dashboard</a>
-<!--                    <span class="nav-user me-3 text-muted">-->
-<!--                        Hi, <span class="text-main fw-bold" sec:authentication="name"></span>-->
-<!--                    </span>-->
+                    <!--                    <span class="nav-user me-3 text-muted">-->
+                    <!--                        Hi, <span class="text-main fw-bold" sec:authentication="name"></span>-->
+                    <!--                    </span>-->
                     <form th:action="@{/logout}" method="post" class="d-inline m-0">
                         <button type="submit" class="nav-btn border-0 bg-transparent text-danger">Logout</button>
                     </form>
                 </span>
-
             </div>
         </div>
     </div>
 </nav>
-
 <footer th:fragment="footer" class="bg-white border-top py-4 mt-auto">
     <div class="container text-center text-muted">
         <p class="mb-0 fs-6">&copy; 2026 SEU CampusFinder.</p>
     </div>
 </footer>
-
 </body>
 </html>

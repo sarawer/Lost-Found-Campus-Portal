@@ -51,6 +51,12 @@
                             <span class="detail-label">Reporter Email</span>
                             <span class="detail-value detail-email" th:text="${reporter != null ? reporter.username : (item.createdBy != null ? item.createdBy : 'Not available')}"></span>
                         </div>
+                        <div class="detail-field detail-field-wide">
+                            <span class="detail-label">Contact Info</span>
+                            <span class="detail-value detail-email"
+                                  th:text="${item.contactInfo != null and !#strings.isEmpty(item.contactInfo) ? item.contactInfo : 'Not available'}">
+                            </span>
+                        </div>
                     </div>
 
                     <div class="detail-description">

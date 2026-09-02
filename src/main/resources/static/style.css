@@ -1097,3 +1097,381 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--danger-red);
     margin-left: 0.15rem;
 }
+
+/* =========================================
+   LOST / FOUND DETAIL PAGE
+   ========================================= */
+
+.item-detail-page {
+    width: 100%;
+    padding: 32px 20px 50px;
+}
+
+.item-detail-container {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+
+/* =========================================
+   MAIN DETAIL CARD
+   ========================================= */
+
+.item-detail-card {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+    box-shadow: 0 8px 30px rgba(16, 42, 67, 0.08);
+    overflow: hidden;
+}
+
+
+/* =========================================
+   IMAGE SECTION
+   ========================================= */
+
+.item-detail-image-wrap {
+    width: 100%;
+    height: 430px;
+    background: #f5f7fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.item-detail-image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 20px;
+}
+
+.item-detail-placeholder {
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #7b8794;
+    font-size: 1rem;
+}
+
+
+/* =========================================
+   DETAIL CONTENT
+   ========================================= */
+
+.item-detail-content {
+    padding: 30px;
+}
+
+.item-detail-title {
+    margin: 0 0 8px;
+    color: #102a43;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.item-detail-subtitle {
+    margin: 0 0 25px;
+    color: #627d98;
+    font-size: 0.95rem;
+}
+
+
+/* =========================================
+   DETAIL GRID
+   ========================================= */
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.detail-item {
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 15px 17px;
+    min-width: 0;
+}
+
+.detail-label {
+    display: block;
+    margin-bottom: 6px;
+    color: #7b8794;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.detail-value {
+    display: block;
+    color: #243b53;
+    font-size: 0.98rem;
+    font-weight: 500;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================
+   DESCRIPTION
+   ========================================= */
+
+.detail-description {
+    margin-top: 20px;
+    padding: 18px;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+}
+
+.detail-description .detail-label {
+    margin-bottom: 8px;
+}
+
+.detail-description .detail-value {
+    white-space: pre-wrap;
+}
+
+
+/* =========================================
+   STATUS
+   ========================================= */
+
+.detail-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 85px;
+    padding: 6px 13px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+
+/* =========================================
+   COMMENTS PANEL
+   ========================================= */
+
+.comment-panel {
+    margin-top: 25px;
+    padding: 24px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    box-shadow: 0 6px 24px rgba(16, 42, 67, 0.06);
+}
+
+.comment-panel h3,
+.comment-panel h4 {
+    margin-top: 0;
+    margin-bottom: 18px;
+    color: #102a43;
+    font-weight: 700;
+}
+
+
+/* =========================================
+   EMPTY COMMENTS
+   ========================================= */
+
+.empty-comment {
+    padding: 25px 15px;
+    text-align: center;
+    color: #7b8794;
+    background: #f8fafc;
+    border: 1px dashed #d9e2ec;
+    border-radius: 12px;
+}
+
+
+/* =========================================
+   COMMENT LIST
+   ========================================= */
+
+.comment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-height: 420px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.comment-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.comment-list::-webkit-scrollbar-thumb {
+    background: #bcccdc;
+    border-radius: 10px;
+}
+
+
+/* =========================================
+   SINGLE COMMENT
+   ========================================= */
+
+.comment-item {
+    padding: 15px 17px;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+}
+
+.comment-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.comment-author {
+    color: #102a43;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.comment-date {
+    color: #829ab1;
+    font-size: 0.75rem;
+    white-space: nowrap;
+}
+
+.comment-body {
+    color: #486581;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================
+   COMMENT FORM
+   ========================================= */
+
+.comment-form {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.comment-form textarea,
+.comment-form input {
+    width: 100%;
+    border: 1px solid #bcccdc;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.comment-form textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.comment-form textarea:focus,
+.comment-form input:focus {
+    border-color: #2680c2;
+    box-shadow: 0 0 0 3px rgba(38, 128, 194, 0.12);
+}
+
+
+/* =========================================
+   RESPONSIVE - TABLET
+   ========================================= */
+
+@media (max-width: 768px) {
+
+    .item-detail-page {
+        padding: 22px 15px 40px;
+    }
+
+    .item-detail-image-wrap {
+        height: 330px;
+    }
+
+    .item-detail-content {
+        padding: 22px;
+    }
+
+    .item-detail-title {
+        font-size: 1.65rem;
+    }
+
+    .detail-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .comment-panel {
+        padding: 20px;
+    }
+}
+
+
+/* =========================================
+   RESPONSIVE - MOBILE
+   ========================================= */
+
+@media (max-width: 480px) {
+
+    .item-detail-page {
+        padding: 15px 10px 30px;
+    }
+
+    .item-detail-card {
+        border-radius: 14px;
+    }
+
+    .item-detail-image-wrap {
+        height: 260px;
+    }
+
+    .item-detail-image-wrap img {
+        padding: 10px;
+    }
+
+    .item-detail-content {
+        padding: 18px;
+    }
+
+    .item-detail-title {
+        font-size: 1.4rem;
+    }
+
+    .detail-item {
+        padding: 13px 14px;
+    }
+
+    .comment-panel {
+        padding: 16px;
+        border-radius: 13px;
+    }
+
+    .comment-head {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .comment-date {
+        white-space: normal;
+    }
+}

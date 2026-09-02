@@ -9,9 +9,7 @@
     <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body class="d-flex flex-column bg-light">
-
 <div th:replace="~{fragments :: navbar('found')}"></div>
-
 <div class="container py-5 flex-grow-1">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
@@ -23,7 +21,6 @@
             Report Found Item
         </a>
     </div>
-
     <form th:action="@{/found}" method="get" class="card border-0 bg-transparent shadow-none mb-4">
         <div class="row gx-2">
             <div class="col-md-8">
@@ -34,7 +31,6 @@
             </div>
         </div>
     </form>
-
     <div th:if="${#lists.isEmpty(foundItems)}" class="empty-state">
         <div class="mb-3">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1" class="text-muted"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
@@ -42,7 +38,6 @@
         <h5>No found items found</h5>
         <p class="mb-0">There are currently no found items reported on campus.</p>
     </div>
-
     <div th:if="${!#lists.isEmpty(foundItems)}" class="row g-4">
         <div class="col-md-4 col-sm-6" th:each="item : ${foundItems}">
             <div class="item-card">
@@ -68,19 +63,12 @@
                 </div>
                 <div class="item-card-footer flex-column align-items-stretch gap-2">
                     <a th:href="@{/found/{id}(id=${item.id})}" class="btn btn-sm btn-primary w-100">View Details</a>
-                    <div th:if="${!isAdmin}" class="d-flex gap-2">
-                        <a th:href="@{/found/edit/{id}(id=${item.id})}" class="btn btn-sm btn-outline-primary flex-grow-1">Update</a>
-                        <a th:href="@{/found/delete/{id}(id=${item.id})}" class="btn btn-sm btn-outline-danger flex-grow-1"
-                           onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <div th:replace="~{fragments :: footer}"></div>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
