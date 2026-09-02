@@ -10,6 +10,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Base64;
 
 @Entity
@@ -35,6 +36,8 @@ public class LostItem {
     private String createdBy;
     private String status = "pending";
 
+    private LocalDateTime createdAt = LocalDateTime.now();
+
     @Lob
     @Column(columnDefinition = "LONGBLOB")
     private byte[] imageData;
@@ -59,6 +62,8 @@ public class LostItem {
     public void setCreatedBy(String createdBy) { this.createdBy = createdBy; }
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
     public byte[] getImageData() { return imageData; }
     public void setImageData(byte[] imageData) { this.imageData = imageData; }
     public String getImageContentType() { return imageContentType; }
