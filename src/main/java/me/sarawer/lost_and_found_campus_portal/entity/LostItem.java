@@ -8,12 +8,14 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Lob;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
+import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Base64;
 
 @Entity
+@Data
 public class LostItem {
 
     @Id
@@ -38,41 +40,5 @@ public class LostItem {
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @Lob
-    @Column(columnDefinition = "LONGBLOB")
-    private byte[] imageData;
-
-    private String imageContentType;
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public String getStudentId() { return studentId; }
-    public void setStudentId(String studentId) { this.studentId = studentId; }
-    public String getItemName() { return itemName; }
-    public void setItemName(String itemName) { this.itemName = itemName; }
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
-    public String getLostLocation() { return lostLocation; }
-    public void setLostLocation(String lostLocation) { this.lostLocation = lostLocation; }
-    public LocalDate getLostDate() { return lostDate; }
-    public void setLostDate(LocalDate lostDate) { this.lostDate = lostDate; }
-    public String getContactInfo() { return contactInfo; }
-    public void setContactInfo(String contactInfo) { this.contactInfo = contactInfo; }
-    public String getCreatedBy() { return createdBy; }
-    public void setCreatedBy(String createdBy) { this.createdBy = createdBy; }
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
-    public byte[] getImageData() { return imageData; }
-    public void setImageData(byte[] imageData) { this.imageData = imageData; }
-    public String getImageContentType() { return imageContentType; }
-    public void setImageContentType(String imageContentType) { this.imageContentType = imageContentType; }
-
-    public String getImageDataUri() {
-        if (imageData == null || imageContentType == null) {
-            return null;
-        }
-        return "data:" + imageContentType + ";base64," + Base64.getEncoder().encodeToString(imageData);
-    }
+    private String imageUrl;
 }

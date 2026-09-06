@@ -1,5 +1,6 @@
 package me.sarawer.lost_and_found_campus_portal.controller;
 
+import lombok.RequiredArgsConstructor;
 import me.sarawer.lost_and_found_campus_portal.service.FoundItemService;
 import me.sarawer.lost_and_found_campus_portal.service.LostItemService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -10,15 +11,12 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/claims")
 @PreAuthorize("hasRole('ADMIN')")
+@RequiredArgsConstructor
 public class ClaimController {
 
     private final LostItemService lostItemService;
     private final FoundItemService foundItemService;
 
-    public ClaimController(LostItemService lostItemService, FoundItemService foundItemService) {
-        this.lostItemService = lostItemService;
-        this.foundItemService = foundItemService;
-    }
 
     @GetMapping
     public String showAdminDashboard(Model model) {

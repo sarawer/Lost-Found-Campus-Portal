@@ -1,5 +1,6 @@
 package me.sarawer.lost_and_found_campus_portal.service;
 
+import lombok.RequiredArgsConstructor;
 import me.sarawer.lost_and_found_campus_portal.entity.FoundItem;
 import me.sarawer.lost_and_found_campus_portal.entity.LostItem;
 import me.sarawer.lost_and_found_campus_portal.repository.FoundItemRepository;
@@ -9,12 +10,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class FoundItemService {
     private final FoundItemRepository foundItemRepository;
-
-    public FoundItemService(FoundItemRepository foundItemRepository) {
-        this.foundItemRepository = foundItemRepository;
-    }
 
     public FoundItem createFoundItem(FoundItem foundItemReq) {
         return foundItemRepository.save(foundItemReq);
@@ -79,14 +77,14 @@ public class FoundItemService {
         if (existingFoundItem.isEmpty()) return null;
 
         FoundItem updatedFoundItem = existingFoundItem.get();
+
         updatedFoundItem.setStudentId(foundItemReq.getStudentId());
         updatedFoundItem.setItemName(foundItemReq.getItemName());
         updatedFoundItem.setDescription(foundItemReq.getDescription());
         updatedFoundItem.setFoundLocation(foundItemReq.getFoundLocation());
         updatedFoundItem.setFoundDate(foundItemReq.getFoundDate());
         updatedFoundItem.setContactInfo(foundItemReq.getContactInfo());
-        updatedFoundItem.setImageData(foundItemReq.getImageData());
-        updatedFoundItem.setImageContentType(foundItemReq.getImageContentType());
+        updatedFoundItem.setImageUrl(foundItemReq.getImageUrl());
 
         return foundItemRepository.save(updatedFoundItem);
     }

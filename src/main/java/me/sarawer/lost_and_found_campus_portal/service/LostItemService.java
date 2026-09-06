@@ -1,5 +1,6 @@
 package me.sarawer.lost_and_found_campus_portal.service;
 
+import lombok.RequiredArgsConstructor;
 import me.sarawer.lost_and_found_campus_portal.entity.LostItem;
 import me.sarawer.lost_and_found_campus_portal.repository.LostItemRepository;
 import org.springframework.stereotype.Service;
@@ -8,12 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class LostItemService {
-    private LostItemRepository lostItemRepository;
-
-    public LostItemService(LostItemRepository lostItemRepository) {
-        this.lostItemRepository = lostItemRepository;
-    }
+    private final LostItemRepository lostItemRepository;
 
     public LostItem createLostItem(LostItem lostItemReq) {
         LostItem lostItemResp = lostItemRepository.save(lostItemReq);
@@ -78,14 +76,14 @@ public class LostItemService {
         if (existingLostItem.isEmpty()) return null;
 
         LostItem updatedLostItem = existingLostItem.get();
+
         updatedLostItem.setStudentId(lostItemReq.getStudentId());
         updatedLostItem.setItemName(lostItemReq.getItemName());
         updatedLostItem.setDescription(lostItemReq.getDescription());
         updatedLostItem.setLostLocation(lostItemReq.getLostLocation());
         updatedLostItem.setLostDate(lostItemReq.getLostDate());
         updatedLostItem.setContactInfo(lostItemReq.getContactInfo());
-        updatedLostItem.setImageData(lostItemReq.getImageData());
-        updatedLostItem.setImageContentType(lostItemReq.getImageContentType());
+        updatedLostItem.setImageUrl(lostItemReq.getImageUrl());
 
         return lostItemRepository.save(updatedLostItem);
     }

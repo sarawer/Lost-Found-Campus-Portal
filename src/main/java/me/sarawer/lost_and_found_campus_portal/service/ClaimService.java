@@ -1,5 +1,6 @@
 package me.sarawer.lost_and_found_campus_portal.service;
 
+import lombok.RequiredArgsConstructor;
 import me.sarawer.lost_and_found_campus_portal.entity.Claim;
 import me.sarawer.lost_and_found_campus_portal.repository.ClaimRepository;
 import org.springframework.stereotype.Service;
@@ -8,12 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ClaimService {
-    private ClaimRepository claimRepository;
-
-    public ClaimService(ClaimRepository claimRepository) {
-        this.claimRepository = claimRepository;
-    }
+    private final ClaimRepository claimRepository;
 
     public Claim createClaim(Claim claimReq) {
         return claimRepository.save(claimReq);

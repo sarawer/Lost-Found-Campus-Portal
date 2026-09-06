@@ -1,6 +1,7 @@
 package me.sarawer.lost_and_found_campus_portal.controller;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import me.sarawer.lost_and_found_campus_portal.entity.AppUser;
 import me.sarawer.lost_and_found_campus_portal.service.AppUserService;
 import org.springframework.stereotype.Controller;
@@ -9,13 +10,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequiredArgsConstructor
 public class AuthController {
 
     private final AppUserService appUserService;
 
-    public AuthController(AppUserService appUserService) {
-        this.appUserService = appUserService;
-    }
 
     @GetMapping("/register")
     public String showRegisterForm(Model model) {

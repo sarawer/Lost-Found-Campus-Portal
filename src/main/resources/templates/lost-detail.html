@@ -16,10 +16,13 @@
         <div class="col-lg-7">
             <div class="item-detail-card">
                 <div class="item-detail-image-wrap">
-                    <img th:if="${item.imageData != null}" th:src="${item.imageDataUri}" alt="Lost item image" class="item-detail-image">
-                    <div th:if="${item.imageData == null}" class="item-detail-placeholder">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
-                    </div>
+                    <img th:if="${item.imageUrl != null and !#strings.isEmpty(item.imageUrl)}"
+                         th:src="${item.imageUrl}"
+                         alt="Lost item image"
+                         class="item-detail-image">
+
+                    <div th:if="${item.imageUrl == null or #strings.isEmpty(item.imageUrl)}"
+                         class="item-detail-placeholder">
                 </div>
 
                 <div class="item-detail-content">

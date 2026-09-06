@@ -1,10 +1,12 @@
 package me.sarawer.lost_and_found_campus_portal.controller;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import me.sarawer.lost_and_found_campus_portal.entity.AppUser;
 import me.sarawer.lost_and_found_campus_portal.entity.FoundItem;
 import me.sarawer.lost_and_found_campus_portal.entity.ItemComment;
 import me.sarawer.lost_and_found_campus_portal.repository.AppUserRepository;
+import me.sarawer.lost_and_found_campus_portal.service.CloudinaryService;
 import me.sarawer.lost_and_found_campus_portal.service.FoundItemService;
 import me.sarawer.lost_and_found_campus_portal.service.ItemCommentService;
 import org.springframework.security.core.Authentication;
@@ -19,17 +21,14 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/found")
+@RequiredArgsConstructor
 public class FoundItemController {
 
     private final FoundItemService foundItemService;
     private final ItemCommentService itemCommentService;
     private final AppUserRepository appUserRepository;
+    private final CloudinaryService cloudinaryService;
 
-    public FoundItemController(FoundItemService foundItemService, ItemCommentService itemCommentService, AppUserRepository appUserRepository) {
-        this.foundItemService = foundItemService;
-        this.itemCommentService = itemCommentService;
-        this.appUserRepository = appUserRepository;
-    }
 
     private boolean isAdmin(Authentication authentication) {
         return authentication != null && authentication.getAuthorities().stream()
@@ -102,46 +101,76 @@ public class FoundItemController {
     }
 
     @PostMapping("/save")
-    public String saveFoundItem(@Valid @ModelAttribute("foundItem") FoundItem foundItem,
-                                BindingResult bindingResult,
-                                @RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
-                                Authentication authentication,
-                                Model model) throws IOException {
+    public String saveFoundItem(
+            @Valid @ModelAttribute("foundItem") FoundItem foundItem,
+            BindingResult bindingResult,
+            @RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
+            Authentication authentication,
+            Model model
+    ) throws IOException {
+
         FoundItem existing = null;
+
+        // Editing existing item
         if (foundItem.getId() != null) {
+
             existing = foundItemService.getFoundItem(foundItem.getId());
-            if (existing == null || !existing.getCreatedBy().equals(authentication.getName())) {
+
+            if (existing == null ||
+                    !existing.getCreatedBy().equals(authentication.getName())) {
                 return "redirect:/found";
             }
+
             foundItem.setCreatedBy(existing.getCreatedBy());
             foundItem.setStatus(existing.getStatus());
             foundItem.setCreatedAt(existing.getCreatedAt());
+
+            // No new image → keep old Cloudinary URL
             if (imageFile == null || imageFile.isEmpty()) {
-                foundItem.setImageData(existing.getImageData());
-                foundItem.setImageContentType(existing.getImageContentType());
+                foundItem.setImageUrl(existing.getImageUrl());
             }
         }
 
+        // New image uploaded
         if (imageFile != null && !imageFile.isEmpty()) {
+
             String contentType = imageFile.getContentType();
+
             if (contentType == null || !contentType.startsWith("image/")) {
-                model.addAttribute("imageUploadError", "Please upload a valid image file.");
+                model.addAttribute(
+                        "imageUploadError",
+                        "Please upload a valid image file."
+                );
+
                 return "found-form";
             }
-            foundItem.setImageData(imageFile.getBytes());
-            foundItem.setImageContentType(contentType);
+
+            // Upload to Cloudinary
+            String imageUrl = cloudinaryService.uploadImage(imageFile);
+
+            // Save only URL in MySQL
+            foundItem.setImageUrl(imageUrl);
         }
 
         if (bindingResult.hasErrors()) {
             return "found-form";
         }
 
+        // New item
         if (foundItem.getId() == null) {
+
             foundItem.setCreatedBy(authentication.getName());
             foundItem.setStatus("pending");
+
             foundItemService.createFoundItem(foundItem);
+
         } else {
-            foundItemService.updateFoundItem(foundItem.getId(), foundItem);
+
+            // Existing item
+            foundItemService.updateFoundItem(
+                    foundItem.getId(),
+                    foundItem
+            );
         }
 
         return "redirect:/found";

@@ -1,5 +1,6 @@
 package me.sarawer.lost_and_found_campus_portal;
 
+import lombok.RequiredArgsConstructor;
 import me.sarawer.lost_and_found_campus_portal.entity.AppUser;
 import me.sarawer.lost_and_found_campus_portal.repository.AppUserRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -7,15 +8,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class DataSeeder implements CommandLineRunner {
 
     private final AppUserRepository appUserRepository;
     private final PasswordEncoder passwordEncoder;
-
-    public DataSeeder(AppUserRepository appUserRepository, PasswordEncoder passwordEncoder) {
-        this.appUserRepository = appUserRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Override
     public void run(String... args) {

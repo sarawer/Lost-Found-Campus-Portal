@@ -1,5 +1,6 @@
 package me.sarawer.lost_and_found_campus_portal.service;
 
+import lombok.RequiredArgsConstructor;
 import me.sarawer.lost_and_found_campus_portal.entity.AppUser;
 import me.sarawer.lost_and_found_campus_portal.entity.FoundItem;
 import me.sarawer.lost_and_found_campus_portal.entity.ItemComment;
@@ -10,12 +11,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ItemCommentService {
     private final ItemCommentRepository itemCommentRepository;
 
-    public ItemCommentService(ItemCommentRepository itemCommentRepository) {
-        this.itemCommentRepository = itemCommentRepository;
-    }
 
     public List<ItemComment> getCommentsForLostItem(LostItem lostItem) {
         if (lostItem == null) {

@@ -114,13 +114,15 @@
                     Item Photo
                 </div>
 
-                <!-- EXISTING: current image preview, restyled into a compact labeled card -->
-                <div class="mb-3" th:if="${foundItem.imageData != null}">
-                    <div class="current-image-card">
-                        <img th:src="${foundItem.imageDataUri}" alt="Current found item image">
-                        <span class="current-image-card-label">Current photo on file. Uploading a new one will replace it.</span>
-                    </div>
+                <!-- EXISTING: current image preview, restyled into a compact labeled card --><div class="mb-3"
+                                                                                                   th:if="${foundItem.imageUrl != null and !#strings.isEmpty(foundItem.imageUrl)}">
+                <div class="current-image-card">
+                    <img th:src="${foundItem.imageUrl}" alt="Current found item image">
+                    <span class="current-image-card-label">
+            Current photo on file. Uploading a new one will replace it.
+                    </span>
                 </div>
+            </div>
 
                 <!-- SUGGESTED: dropzone-style wrapper around the same native file input -->
                 <label class="upload-dropzone mb-0">

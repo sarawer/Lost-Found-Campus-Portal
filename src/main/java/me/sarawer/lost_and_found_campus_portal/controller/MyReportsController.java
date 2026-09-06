@@ -1,5 +1,6 @@
 package me.sarawer.lost_and_found_campus_portal.controller;
 
+import lombok.RequiredArgsConstructor;
 import me.sarawer.lost_and_found_campus_portal.entity.FoundItem;
 import me.sarawer.lost_and_found_campus_portal.entity.LostItem;
 import me.sarawer.lost_and_found_campus_portal.service.FoundItemService;
@@ -12,15 +13,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 public class MyReportsController {
 
     private final LostItemService lostItemService;
     private final FoundItemService foundItemService;
-
-    public MyReportsController(LostItemService lostItemService, FoundItemService foundItemService) {
-        this.lostItemService = lostItemService;
-        this.foundItemService = foundItemService;
-    }
 
     @GetMapping("/my-reports")
     public String myReports(Model model, Authentication authentication) {

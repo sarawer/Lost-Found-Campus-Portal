@@ -115,10 +115,13 @@
                 </div>
 
                 <!-- EXISTING: current image preview, restyled into a compact labeled card -->
-                <div class="mb-3" th:if="${lostItem.imageData != null}">
+                <div class="mb-3"
+                     th:if="${lostItem.imageUrl != null and !#strings.isEmpty(lostItem.imageUrl)}">
                     <div class="current-image-card">
-                        <img th:src="${lostItem.imageDataUri}" alt="Current lost item image">
-                        <span class="current-image-card-label">Current photo on file. Uploading a new one will replace it.</span>
+                        <img th:src="${lostItem.imageUrl}" alt="Current lost item image">
+                        <span class="current-image-card-label">
+            Current photo on file. Uploading a new one will replace it.
+                        </span>
                     </div>
                 </div>
 

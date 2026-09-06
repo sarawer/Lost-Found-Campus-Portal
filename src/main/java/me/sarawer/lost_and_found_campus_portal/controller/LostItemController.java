@@ -1,10 +1,12 @@
 package me.sarawer.lost_and_found_campus_portal.controller;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import me.sarawer.lost_and_found_campus_portal.entity.AppUser;
 import me.sarawer.lost_and_found_campus_portal.entity.ItemComment;
 import me.sarawer.lost_and_found_campus_portal.entity.LostItem;
 import me.sarawer.lost_and_found_campus_portal.repository.AppUserRepository;
+import me.sarawer.lost_and_found_campus_portal.service.CloudinaryService;
 import me.sarawer.lost_and_found_campus_portal.service.ItemCommentService;
 import me.sarawer.lost_and_found_campus_portal.service.LostItemService;
 import org.springframework.security.core.Authentication;
@@ -17,19 +19,16 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
+
 @Controller
 @RequestMapping("/lost")
+@RequiredArgsConstructor
 public class LostItemController {
 
     private final LostItemService lostItemService;
     private final ItemCommentService itemCommentService;
     private final AppUserRepository appUserRepository;
-
-    public LostItemController(LostItemService lostItemService, ItemCommentService itemCommentService, AppUserRepository appUserRepository) {
-        this.lostItemService = lostItemService;
-        this.itemCommentService = itemCommentService;
-        this.appUserRepository = appUserRepository;
-    }
+    private final CloudinaryService cloudinaryService;
 
     private boolean isAdmin(Authentication authentication) {
         return authentication != null && authentication.getAuthorities().stream()
@@ -102,46 +101,76 @@ public class LostItemController {
     }
 
     @PostMapping("/save")
-    public String saveLostItem(@Valid @ModelAttribute("lostItem") LostItem lostItem,
-                               BindingResult bindingResult,
-                               @RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
-                               Authentication authentication,
-                               Model model) throws IOException {
+    public String saveLostItem(
+            @Valid @ModelAttribute("lostItem") LostItem lostItem,
+            BindingResult bindingResult,
+            @RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
+            Authentication authentication,
+            Model model
+    ) throws IOException {
+
         LostItem existing = null;
+
+        // Editing existing item
         if (lostItem.getId() != null) {
+
             existing = lostItemService.getLostItem(lostItem.getId());
-            if (existing == null || !existing.getCreatedBy().equals(authentication.getName())) {
+
+            if (existing == null ||
+                    !existing.getCreatedBy().equals(authentication.getName())) {
                 return "redirect:/lost";
             }
+
             lostItem.setCreatedBy(existing.getCreatedBy());
             lostItem.setStatus(existing.getStatus());
             lostItem.setCreatedAt(existing.getCreatedAt());
+
+            // No new image → keep old Cloudinary URL
             if (imageFile == null || imageFile.isEmpty()) {
-                lostItem.setImageData(existing.getImageData());
-                lostItem.setImageContentType(existing.getImageContentType());
+                lostItem.setImageUrl(existing.getImageUrl());
             }
         }
 
+        // New image uploaded
         if (imageFile != null && !imageFile.isEmpty()) {
+
             String contentType = imageFile.getContentType();
+
             if (contentType == null || !contentType.startsWith("image/")) {
-                model.addAttribute("imageUploadError", "Please upload a valid image file.");
+                model.addAttribute(
+                        "imageUploadError",
+                        "Please upload a valid image file."
+                );
+
                 return "lost-form";
             }
-            lostItem.setImageData(imageFile.getBytes());
-            lostItem.setImageContentType(contentType);
+
+            // Upload to Cloudinary
+            String imageUrl = cloudinaryService.uploadImage(imageFile);
+
+            // Save only URL in MySQL
+            lostItem.setImageUrl(imageUrl);
         }
 
         if (bindingResult.hasErrors()) {
             return "lost-form";
         }
 
+        // New item
         if (lostItem.getId() == null) {
+
             lostItem.setCreatedBy(authentication.getName());
             lostItem.setStatus("pending");
+
             lostItemService.createLostItem(lostItem);
+
         } else {
-            lostItemService.updateLostItem(lostItem.getId(), lostItem);
+
+            // Existing item
+            lostItemService.updateLostItem(
+                    lostItem.getId(),
+                    lostItem
+            );
         }
 
         return "redirect:/lost";
