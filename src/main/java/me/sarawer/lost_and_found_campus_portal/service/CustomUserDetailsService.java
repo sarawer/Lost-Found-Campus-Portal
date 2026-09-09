@@ -12,21 +12,27 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
+
     private final AppUserRepository appUserRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username)
+            throws UsernameNotFoundException {
 
-        AppUser appUser = appUserRepository.findAppUsersByUsername(username);
+        AppUser appUser =
+                appUserRepository.findAppUsersByUsername(username);
 
         if (appUser == null) {
-            throw new UsernameNotFoundException("User not found: " + username);
+            throw new UsernameNotFoundException(
+                    "User not found: " + username
+            );
         }
 
         return User.builder()
                 .username(appUser.getUsername())
                 .password(appUser.getPassword())
                 .roles(appUser.getRole())
+                .disabled(!appUser.isEnabled())
                 .build();
     }
 }

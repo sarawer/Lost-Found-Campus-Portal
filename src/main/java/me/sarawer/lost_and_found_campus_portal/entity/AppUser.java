@@ -35,8 +35,9 @@ public class AppUser {
 
     private String role;
 
+    @Column(nullable = false)
+    private boolean enabled = false;
+
     @Transient
     private String confirmPassword;
-
-
 }

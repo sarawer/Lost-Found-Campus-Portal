@@ -1,4 +1,4 @@
-package me.sarawer.lost_and_found_campus_portal.cloudinary;
+package me.sarawer.lost_and_found_campus_portal;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;

@@ -9,19 +9,31 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AppUserService {
+
     private final AppUserRepository appUserRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public String registerUser(AppUser appUserReq) {
-        AppUser existingUser = appUserRepository.findAppUsersByUsername(appUserReq.getUsername());
+    public String checkUsername(String username) {
+
+        AppUser existingUser =
+                appUserRepository.findAppUsersByUsername(username);
+
         if (existingUser != null) {
             return "username-taken";
         }
 
-        appUserReq.setPassword(passwordEncoder.encode(appUserReq.getPassword()));
-        appUserReq.setRole("USER");
+        return "available";
+    }
 
-        appUserRepository.save(appUserReq);
-        return "success";
+    public void saveVerifiedUser(AppUser appUser) {
+
+        appUser.setPassword(
+                passwordEncoder.encode(appUser.getPassword())
+        );
+
+        appUser.setRole("USER");
+        appUser.setEnabled(true);
+
+        appUserRepository.save(appUser);
     }
 }
