@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class EmailService {
@@ -29,8 +31,8 @@ public class EmailService {
                         "SEU CampusFinder"
         );
 
-        System.out.println("BEFORE EMAIL");
+        log.info("Attempting to send OTP email to: {}", to);
         mailSender.send(message);
-        System.out.println("AFTER EMAIL");
+        log.info("Successfully sent OTP email to: {}", to);
     }
 }

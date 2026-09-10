@@ -12,7 +12,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Random;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class AuthController {
@@ -119,6 +121,8 @@ public class AuthController {
             );
 
         } catch (Exception e) {
+            log.error("Failed to send OTP email to user {}. Exception type: {}, Message: {}", 
+                    appUser.getUsername(), e.getClass().getName(), e.getMessage(), e);
 
             model.addAttribute(
                     "emailError",
