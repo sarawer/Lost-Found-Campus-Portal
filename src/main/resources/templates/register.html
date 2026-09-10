@@ -26,6 +26,10 @@
         </div>
 
         <form id="registerForm" th:action="@{/register}" th:object="${appUser}" method="post" novalidate>
+            <div th:if="${emailError != null}" class="form-alert mb-4 alert alert-danger" style="background-color: #f8d7da; color: #842029; border-color: #f5c2c7; padding: 1rem; border-radius: 0.375rem; display: flex; align-items: center;">
+                <span class="form-alert-icon me-2 fw-bold" style="background: transparent; color: #842029;">!</span>
+                <span th:text="${emailError}"></span>
+            </div>
             <div th:if="${#fields.hasAnyErrors() or (passwordMismatch != null and passwordMismatch) or (userTaken != null and userTaken)}" class="form-alert mb-4">
                 <span class="form-alert-icon">!</span>
                 <span>Please fix the highlighted fields and try again.</span>
