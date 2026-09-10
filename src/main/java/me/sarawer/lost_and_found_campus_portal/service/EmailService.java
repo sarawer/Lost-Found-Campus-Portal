@@ -29,6 +29,8 @@ public class EmailService {
                         "SEU CampusFinder"
         );
 
+        System.out.println("BEFORE EMAIL");
         mailSender.send(message);
+        System.out.println("AFTER EMAIL");
     }
 }
