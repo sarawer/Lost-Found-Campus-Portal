@@ -42,6 +42,10 @@ public class AppUserService {
         appUserRepository.save(appUser);
     }
 
+    public boolean verifyPassword(AppUser appUser, String rawPassword) {
+        return passwordEncoder.matches(rawPassword, appUser.getPassword());
+    }
+
     public AppUser findByUsername(String username) {
         return appUserRepository.findAppUsersByUsername(username);
     }

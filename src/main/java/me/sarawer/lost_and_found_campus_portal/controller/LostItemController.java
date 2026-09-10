@@ -180,7 +180,8 @@ public class LostItemController {
     public String deleteLostItem(@PathVariable Long id, Authentication authentication) {
         LostItem item = lostItemService.getLostItem(id);
 
-        if (item != null && item.getCreatedBy().equals(authentication.getName())) {
+        boolean isAdmin = authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+        if (item != null && (item.getCreatedBy().equals(authentication.getName()) || isAdmin)) {
             lostItemService.deleteLostItem(id);
         }
 

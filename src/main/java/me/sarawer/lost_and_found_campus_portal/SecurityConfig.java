@@ -50,6 +50,13 @@ public class SecurityConfig {
                         )
                         .hasRole("ADMIN")
 
+                        .requestMatchers(
+                                "/lost",
+                                "/found",
+                                "/lost/*",
+                                "/found/*"
+                        ).permitAll()
+
                         .anyRequest().authenticated()
                 )
 

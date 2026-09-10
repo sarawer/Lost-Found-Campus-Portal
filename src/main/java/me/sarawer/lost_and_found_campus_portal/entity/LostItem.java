@@ -36,7 +36,7 @@ public class LostItem {
 
     private String contactInfo;
     private String createdBy;
-    private String status = "pending";
+    private String status = "approved";
 
     private LocalDateTime createdAt = LocalDateTime.now();
 

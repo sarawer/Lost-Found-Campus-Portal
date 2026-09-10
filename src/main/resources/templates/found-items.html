@@ -75,6 +75,17 @@
                 </div>
                 <div class="item-card-footer flex-column align-items-stretch gap-2">
                     <a th:href="@{/found/{id}(id=${item.id})}" class="btn btn-sm btn-primary w-100">View Details</a>
+                    <div th:if="${isAdmin}" class="d-flex gap-2 w-100">
+                        <form th:if="${item.status == 'approved'}" th:action="@{/found/status/{id}(id=${item.id})}" method="post" class="flex-grow-1 m-0">
+                            <input type="hidden" name="status" value="hidden">
+                            <button type="submit" class="btn btn-sm btn-outline-secondary w-100">Hide</button>
+                        </form>
+                        <form th:if="${item.status == 'hidden'}" th:action="@{/found/status/{id}(id=${item.id})}" method="post" class="flex-grow-1 m-0">
+                            <input type="hidden" name="status" value="approved">
+                            <button type="submit" class="btn btn-sm btn-outline-success w-100">Unhide</button>
+                        </form>
+                        <a th:href="@{/found/delete/{id}(id=${item.id})}" class="btn btn-sm btn-outline-danger flex-grow-1" onclick="return confirm('Delete this item?');">Delete</a>
+                    </div>
                 </div>
             </div>
         </div>

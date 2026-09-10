@@ -265,12 +265,12 @@ public class AuthController {
             Model model) {
 
         AppUser user = appUserService.findByUsername(userEmail);
-        
-        model.addAttribute("message", "If an account exists for this email, a password reset link has been sent.");
-        
         if (user != null) {
             String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
             passwordResetService.createPasswordResetTokenForUser(user, appUrl);
+            model.addAttribute("message", "A password reset link has been sent to your email.");
+        } else {
+            model.addAttribute("error", "This email is not registered.");
         }
 
         return "forgot-password";

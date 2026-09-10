@@ -180,7 +180,8 @@ public class FoundItemController {
     public String deleteFoundItem(@PathVariable Long id, Authentication authentication) {
         FoundItem item = foundItemService.getFoundItem(id);
 
-        if (item != null && item.getCreatedBy().equals(authentication.getName())) {
+        boolean isAdmin = authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+        if (item != null && (item.getCreatedBy().equals(authentication.getName()) || isAdmin)) {
             foundItemService.deleteFoundItem(id);
         }
 
