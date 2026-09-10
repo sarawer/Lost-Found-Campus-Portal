@@ -26,6 +26,8 @@ public class SecurityConfig {
                                 "/register",
                                 "/login",
                                 "/verify-otp",
+                                "/forgot-password",
+                                "/reset-password",
                                 "/images/**"
                         ).permitAll()
 

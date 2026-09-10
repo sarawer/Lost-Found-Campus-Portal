@@ -36,4 +36,13 @@ public class AppUserService {
 
         appUserRepository.save(appUser);
     }
+
+    public void updatePassword(AppUser appUser, String newPassword) {
+        appUser.setPassword(passwordEncoder.encode(newPassword));
+        appUserRepository.save(appUser);
+    }
+
+    public AppUser findByUsername(String username) {
+        return appUserRepository.findAppUsersByUsername(username);
+    }
 }

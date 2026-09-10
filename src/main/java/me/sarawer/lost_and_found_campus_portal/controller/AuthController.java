@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import me.sarawer.lost_and_found_campus_portal.entity.AppUser;
 import me.sarawer.lost_and_found_campus_portal.service.AppUserService;
 import me.sarawer.lost_and_found_campus_portal.service.EmailService;
+import me.sarawer.lost_and_found_campus_portal.service.PasswordResetService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,6 +22,7 @@ public class AuthController {
 
     private final AppUserService appUserService;
     private final EmailService emailService;
+    private final PasswordResetService passwordResetService;
 
 
     // =========================
@@ -245,5 +247,82 @@ public class AuthController {
     @GetMapping("/login")
     public String showLoginForm() {
         return "login";
+    }
+
+    // =========================
+    // FORGOT PASSWORD
+    // =========================
+
+    @GetMapping("/forgot-password")
+    public String showForgotPasswordForm() {
+        return "forgot-password";
+    }
+
+    @PostMapping("/forgot-password")
+    public String processForgotPassword(
+            jakarta.servlet.http.HttpServletRequest request,
+            @RequestParam("email") String userEmail,
+            Model model) {
+
+        AppUser user = appUserService.findByUsername(userEmail);
+        
+        model.addAttribute("message", "If an account exists for this email, a password reset link has been sent.");
+        
+        if (user != null) {
+            String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+            passwordResetService.createPasswordResetTokenForUser(user, appUrl);
+        }
+
+        return "forgot-password";
+    }
+
+    // =========================
+    // RESET PASSWORD
+    // =========================
+
+    @GetMapping("/reset-password")
+    public String showResetPasswordForm(@RequestParam("token") String token, Model model) {
+        String result = passwordResetService.validatePasswordResetToken(token);
+        
+        if (result != null) {
+            return "redirect:/login?resetError";
+        }
+        
+        model.addAttribute("token", token);
+        return "reset-password";
+    }
+
+    @PostMapping("/reset-password")
+    public String processResetPassword(
+            @RequestParam("token") String token,
+            @RequestParam("password") String password,
+            @RequestParam("confirmPassword") String confirmPassword,
+            Model model) {
+
+        String result = passwordResetService.validatePasswordResetToken(token);
+        if (result != null) {
+            return "redirect:/login?resetError";
+        }
+        
+        if (password == null || password.length() < 4) {
+            model.addAttribute("error", "Password must contain at least 4 characters.");
+            model.addAttribute("token", token);
+            return "reset-password";
+        }
+
+        if (!password.equals(confirmPassword)) {
+            model.addAttribute("error", "Passwords do not match.");
+            model.addAttribute("token", token);
+            return "reset-password";
+        }
+
+        AppUser user = passwordResetService.getUserByPasswordResetToken(token);
+        if (user != null) {
+            appUserService.updatePassword(user, password);
+            passwordResetService.deleteToken(token);
+            return "redirect:/login?resetSuccess";
+        } else {
+            return "redirect:/login?resetError";
+        }
     }
 }
